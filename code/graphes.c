@@ -287,13 +287,17 @@ void afficherGraphe(GRAPHE *g){
 }//Fin afficherGraphe()
 
 int lireFichier(char *nomf, GRAPHE *g){
-	
+
   FILE *fp;
   char ligne[MAX+1];
   int temp, i, j,nbS1 , nbLigne, sommet, nbElt, creerArc;
 
 	initialiserGraphe(g);
   fp = fopen(nomf, "r"); /* ouvre un fichier en lecture */
+	if(fp == NULL){
+		fprintf(stderr, "** ERREUR ouverture fichier.\n");
+		return -1;
+	}
   nbLigne = 0; /* compte les lignes du fichier */
   sommet = 0; /* label du sommet en cours */
   nbS1 = 0; /* compte les sommets de la 1ere ligne */
