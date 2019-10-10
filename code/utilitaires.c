@@ -29,7 +29,7 @@ int gestion_des_arguments(int argc, char **argv, char *source){
 					return -1;
 				}
 			case 'f': //Fichier source.
-				printf("Fichier source/destination : %s\n", optarg);
+				printf("Fichier source : %s\n", optarg);
 				strcpy(source, optarg);
 				break;
 			case '?': //Option inconnue.
