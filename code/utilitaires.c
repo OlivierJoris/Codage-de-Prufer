@@ -33,6 +33,11 @@ int gestion_des_arguments(int argc, char **argv, char *source){
 				strcpy(source, optarg);
 				break;
 			case '?': //Option inconnue.
+				fprintf(stderr, "** ERREUR : Argument manquant - option inconnue.\n");
+				fprintf(stderr, "Format attendu pour les arguments.\n");
+				fprintf(stderr, "-m suivi de \"encodage\" ou \"decodage\" en fonction du mode souhaité.\n");
+				fprintf(stderr, "-f suivi du chemin vers le fichier ou lire le graphe/codage de Prufer.\n");
+				return -1;
 			case ':': //Argument manquant.
 				fprintf(stderr, "** ERREUR : Argument manquant - option inconnue.\n");
 				fprintf(stderr, "Format attendu pour les arguments.\n");
@@ -41,7 +46,7 @@ int gestion_des_arguments(int argc, char **argv, char *source){
 				return -1;
 		}//Fin switch()
 	}//Fin while()
-	fprintf(stderr, "\n");
+	printf("\n");
 
 	return modeUtilisation;
 }//Fin gestion_des_arguments()

@@ -3,28 +3,44 @@
 
 #include "utilitaires.h"
 #include "tableau.h"
+#include "prufer.h"
 #include "graphes.h"
 
 int main(int argc, char **argv){
 
-	char* fichier = malloc(sizeof(char) * 21);
-	if(fichier == NULL){
-		return EXIT_FAILURE;
-	}
+	char fichier[31];
 
 	int modeUtilisation = gestion_des_arguments(argc, argv, fichier);
 	switch(modeUtilisation){
 		case 1:
 			printf("Mode encodage.\n");
-			break;
+			return EXIT_SUCCESS;
 		case 2:
 			printf("Mode décodage.\n");
-			break;
+			int resultatTaille = lire_taille_codage(fichier);
+			if(resultatTaille < 0){
+				fprintf(stderr, "** ERREUR : Erreur à la lecture de la taille du codage.\n");
+				return EXIT_FAILURE;
+			}
+			CodagePrufer *nvCodage = creer_codage_prufer((unsigned int)resultatTaille);
+			if(nvCodage == NULL){
+				fprintf(stderr, "** ERREUR : Erreur à la création du codage.\n");
+				return EXIT_FAILURE;
+			}
+
+			int resultatLecture = lire_codage_prufer(nvCodage, fichier);
+			if(resultatLecture < 0){
+				fprintf(stderr, "** ERREUR : Erreur à la lecture du codage.\n");
+				return EXIT_FAILURE;
+			}
+
+			afficher_codage_prufer(nvCodage);
+
+			detruire_codage_prufer(nvCodage);
+			return EXIT_SUCCESS;
 		case -1:
-			if(fichier != NULL)
-				free(fichier);
 			return EXIT_FAILURE;
-	}
+	}//Fin switch()
 
 	/*
 	//Exemple
@@ -42,6 +58,7 @@ int main(int argc, char **argv){
 	}
 	*/
 
+	/*
 	//Test type opaque tableau.
 	Tableau* monTableau = creer_tableau(5);
 	if(monTableau != NULL){
@@ -60,9 +77,7 @@ int main(int argc, char **argv){
 		modifier_taille_tableau(monTableau, 5); //ERREUR
 		supprimerTableau(monTableau);
 	}
+	*/
 
-	if(fichier != NULL){
-		free(fichier);
-	}
   return EXIT_SUCCESS;
 }
