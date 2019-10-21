@@ -30,7 +30,7 @@ void afficher_tableau(Tableau* tab);
 /*******************************
 ** Fonction pour modifier la taille d'un Tableau.
 *
-** Paramètre :
+** Paramètres :
 * tab, le Tableau dont il faut modifier la taille.
 * nouvelleTaille, la nouvelle taille souhaitée pour le Tableau.
 *
@@ -43,7 +43,7 @@ void modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille);
 /*******************************
 ** Fonction pour modifier une valeur contenue dans un Tableau.
 *
-** Paramètre :
+** Paramètres :
 * tab, le Tableau dont il faut modifier un élément.
 * position, la position de l'élément à modifier dans le Tableau.
 * nouvelleValeur, la valeur à attribuer à l'élément qui se trouve en position position.
@@ -57,7 +57,7 @@ void modifier_valeur_tableau(Tableau* tab, unsigned int position, unsigned char 
 /*******************************
 ** Fonction pour incrémenter la valeur d'un élément du Tableau.
 *
-** Paramètre :
+** Paramètres :
 * tab, le Tableau dont il faut modifier un élément.
 * position, la position de l'élément à modifier dans le Tableau.
 *
@@ -70,7 +70,7 @@ void incrementer_valeur_tableau(Tableau* tab, unsigned int position);
 /*******************************
 ** Fonction pour décrémenter la valeur d'un élément du Tableau.
 *
-** Paramètre :
+** Paramètres :
 * tab, le Tableau dont il faut modifier un élément.
 * position, la position de l'élément à modifier dans le Tableau.
 *
@@ -83,7 +83,7 @@ void decrementer_valeur_tableau(Tableau* tab, unsigned int position);
 /*******************************
 ** Fonction pour récupérer la valeur d'un élément dans le Tableau.
 *
-** Paramètre :
+** Paramètres :
 * tab, le Tableau dont il faut récupérer un élément.
 * position, la position de l'élément à récupérer dans le Tableau..
 *

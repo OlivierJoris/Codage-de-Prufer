@@ -12,7 +12,7 @@ CodagePrufer *creer_codage_prufer(unsigned int taille){
 	}
 
 	nvCodage->taille = taille;
-	nvCodage->suitePrufer = malloc(sizeof(char) * taille);
+	nvCodage->suitePrufer = malloc(sizeof(unsigned int) * taille);
 	if(nvCodage->suitePrufer == NULL){
 		fprintf(stderr, "** ERREUR : Erreur à l'allocation de la suite de Prüfer.\n");
 		free(nvCodage);
@@ -46,7 +46,7 @@ void afficher_codage_prufer(CodagePrufer *codage){
 	printf("Codage : ");
 
 	for(unsigned int i = 0; i < codage->taille; i++){
-		printf("%c ", codage->suitePrufer[i]);
+		printf("%u ", codage->suitePrufer[i]);
 	}
 	printf("\n");
 }//Fin afficher_codage_prufer()
@@ -89,17 +89,17 @@ int lire_codage_prufer(CodagePrufer *codage, char *nomFichier){
 
 	FILE* fichier = fopen(nomFichier, "r");
 	if(fichier == NULL)
-		return -3;
+		return -4;
 
-	char caractereLu;
+	unsigned int nombreLu;
 
 	unsigned int tailleCodage;
 
 	fscanf(fichier, "%u\n", &tailleCodage);
 
 	for(unsigned int i = 0; i < tailleCodage; i++){
-		fscanf(fichier, "%c ", &caractereLu);
-		codage->suitePrufer[i] = caractereLu;
+		fscanf(fichier, "%u ", &nombreLu);
+		codage->suitePrufer[i] = nombreLu;
 	}//Fin for()
 
 	if(fichier != NULL)
