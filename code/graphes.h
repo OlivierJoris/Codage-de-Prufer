@@ -44,4 +44,17 @@ void afficherGraphe(GRAPHE *);
 
 int lireFichier(char *nomf, GRAPHE *);
 
+/* ------------------------------------------------------------------------- *
+ ** Fonction pour sauvegarder un graphe dans un fichier.
+ *
+ ** PARAMETRES
+ * g, le graphe à sauvegarder.
+ *
+ ** RETOUR
+ * 0, graphe sauvegardé dans le fichier "output_graph.txt".
+ * -1, pointeur g vaut NULL.
+ *
+ * ------------------------------------------------------------------------- */
+int sauvegarder_graphe(GRAPHE *g);
+
 #endif

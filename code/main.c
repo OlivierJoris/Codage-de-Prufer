@@ -12,10 +12,24 @@ int main(int argc, char **argv){
 
 	ModeUtilisation mode = gestion_des_arguments(argc, argv, fichier);
 	switch(mode){
-		case encodage:
+		case encodage:{
 			printf("Mode encodage.\n");
+
+			GRAPHE g;
+			int resultatLecture = lireFichier(fichier, &g);
+			if(resultatLecture < 0){
+				return EXIT_FAILURE;
+			}
+			afficherGraphe(&g);
+
+			sauvegarder_graphe(&g);
+
+			supprimerGraphe(&g);
+
 			return EXIT_SUCCESS;
-		case decodage:
+			break;
+		}
+		case decodage:{
 			printf("Mode décodage.\n");
 			int resultatTaille = lire_taille_codage(fichier);
 			if(resultatTaille < 0){
@@ -38,6 +52,7 @@ int main(int argc, char **argv){
 
 			detruire_codage_prufer(nvCodage);
 			return EXIT_SUCCESS;
+		}
 		case erreur:
 			return EXIT_FAILURE;
 	}//Fin switch()

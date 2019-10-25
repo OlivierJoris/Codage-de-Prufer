@@ -365,3 +365,68 @@ int lireFichier(char *nomf, GRAPHE *g){
   fclose(fp);
 	return 0;
 }//Fin lireFichier()
+
+int sauvegarder_graphe(GRAPHE *g){
+	if(g == NULL)
+		return -1;
+
+	if(g->premierSommet == NULL)
+		return -2;
+
+	SOMMET *sommetCourant = g->premierSommet;
+	ELTADJ *sommetAdj = g->premierSommet->adj;
+
+	FILE* fichierGraphe = fopen("output_graph.txt", "w");
+	if(fichierGraphe == NULL)
+		return -3;
+
+	//Initialisation copie.
+
+	//Si le premier sommet n'est pas 1, on remplit de #V de x les premières lignes.
+	if(sommetCourant->label > 1){
+		//Remplir les lignes.
+		for(int i = 1; i < sommetCourant->label; i++){
+			//Remplir une ligne.
+			for(int j = 1; j <= g->nbS; j++){
+				fprintf(fichierGraphe, "x,");
+			}//Fin for()
+			fprintf(fichierGraphe, "\n");
+		}//Fin for()
+	}//Fin if()
+
+	int posLigneFichier = 1;
+
+	//Parcourir l'entierté des sommets.
+	while(sommetCourant != NULL){
+		sommetAdj = sommetCourant->adj;
+		//Parcurir les sommets adjacents à un sommet. (liste adjacence pour un sommet.)
+		while(sommetAdj != NULL){
+			//On n'a pas un arc entre le sommet sommetCourant et le 1er sommet du graphe.
+			//Donc on remplit de x jusqu'à arriver au sommet du premier arc.
+			if(sommetAdj->dest > posLigneFichier){
+				for(int j = posLigneFichier; j < sommetAdj->dest; j++){
+					fprintf(fichierGraphe, "x,");
+				}//Fin for()
+			}//Fin if()
+
+			posLigneFichier = sommetAdj->dest + 1;
+
+			fprintf(fichierGraphe, "%d,", sommetAdj->info);
+
+			sommetAdj = sommetAdj->suivant;
+		}//Fin while()
+		if(posLigneFichier <= g->nbS){
+			for(int i = posLigneFichier; i <= g->nbS; i++)
+				fprintf(fichierGraphe, "x,");
+		}
+		fprintf(fichierGraphe, "\n");
+		posLigneFichier = 1;
+		sommetCourant = sommetCourant->suivant;
+	}//Fin while()
+
+	if(fichierGraphe != NULL)
+		fclose(fichierGraphe);
+
+	return 0;
+
+}//Fin sauvegarder_graphe()
