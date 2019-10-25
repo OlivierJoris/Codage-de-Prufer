@@ -10,12 +10,12 @@ int main(int argc, char **argv){
 
 	char fichier[31];
 
-	int modeUtilisation = gestion_des_arguments(argc, argv, fichier);
-	switch(modeUtilisation){
-		case 1:
+	ModeUtilisation mode = gestion_des_arguments(argc, argv, fichier);
+	switch(mode){
+		case encodage:
 			printf("Mode encodage.\n");
 			return EXIT_SUCCESS;
-		case 2:
+		case decodage:
 			printf("Mode décodage.\n");
 			int resultatTaille = lire_taille_codage(fichier);
 			if(resultatTaille < 0){
@@ -38,7 +38,7 @@ int main(int argc, char **argv){
 
 			detruire_codage_prufer(nvCodage);
 			return EXIT_SUCCESS;
-		case -1:
+		case erreur:
 			return EXIT_FAILURE;
 	}//Fin switch()
 

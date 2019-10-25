@@ -5,14 +5,15 @@
 
 #include "utilitaires.h"
 
-int gestion_des_arguments(int argc, char **argv, char *source){
+ModeUtilisation gestion_des_arguments(int argc, char **argv, char *source){
 	if(argv == NULL || source == NULL){
 		fprintf(stderr, "** ERREUR : Gestion des arguments.\n");
-		return -1;
+		return erreur;
 	}
 
 	const char *arguments = ":m:f:"; //Format attendu des options.
-	int optionCourante, modeUtilisation;
+	int optionCourante;
+	ModeUtilisation mode;
 
 	while((optionCourante = getopt(argc, argv, arguments)) != EOF){
 		switch(optionCourante){
@@ -20,13 +21,13 @@ int gestion_des_arguments(int argc, char **argv, char *source){
 				if((!strcmp(optarg, "encodage")) || (!strcmp(optarg, "decodage"))){ //Mode connu.
 					printf("Mode d'utilisation : %s\n", optarg);
 					if(!strcmp(optarg, "encodage"))
-						modeUtilisation = 1;
+						mode = encodage;
 					else
-						modeUtilisation = 2;
+						mode = decodage;
 					break;
 				}else{ //Mode inconnu.
 					fprintf(stderr, "** ERREUR : argument -m. Soit \"encodage\" soit \"decodage\".\n");
-					return -1;
+					return erreur;
 				}
 			case 'f': //Fichier source.
 				printf("Fichier source : %s\n", optarg);
@@ -37,16 +38,16 @@ int gestion_des_arguments(int argc, char **argv, char *source){
 				fprintf(stderr, "Format attendu pour les arguments.\n");
 				fprintf(stderr, "-m suivi de \"encodage\" ou \"decodage\" en fonction du mode souhaité.\n");
 				fprintf(stderr, "-f suivi du chemin vers le fichier ou lire le graphe/codage de Prufer.\n");
-				return -1;
+				return erreur;
 			case ':': //Argument manquant.
 				fprintf(stderr, "** ERREUR : Argument manquant - option inconnue.\n");
 				fprintf(stderr, "Format attendu pour les arguments.\n");
 				fprintf(stderr, "-m suivi de \"encodage\" ou \"decodage\" en fonction du mode souhaité.\n");
 				fprintf(stderr, "-f suivi du chemin vers le fichier ou lire le graphe/codage de Prufer.\n");
-				return -1;
+				return erreur;
 		}//Fin switch()
 	}//Fin while()
 	printf("\n");
 
-	return modeUtilisation;
+	return mode;
 }//Fin gestion_des_arguments()

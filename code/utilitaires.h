@@ -1,3 +1,8 @@
+#ifndef __UTILITAIRES__
+#define __UTILITAIRES__
+
+typedef enum {erreur = -1, encodage, decodage}ModeUtilisation;
+
 /* ------------------------------------------------------------------------- *
  ** Fonction pour gérer les arguments au lancement du programme.
  *
@@ -12,4 +17,6 @@
  * 2, si decodage
  *
  * ------------------------------------------------------------------------- */
-int gestion_des_arguments(int argc, char **argv, char *source);
+ModeUtilisation gestion_des_arguments(int argc, char **argv, char *source);
+
+#endif
