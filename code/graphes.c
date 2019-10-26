@@ -366,6 +366,9 @@ int lireFichier(char *nomf, GRAPHE *g){
 	return 0;
 }//Fin lireFichier()
 
+//Sauvegarder le graphe dans un fichier revient à constituer la matrice d'adjacence du graphe dans un fichier.
+//Le graphe sera toujours sauvegradé dans le fichier output_graph.txt. Si ce fichier n'existe pas, il sera créé automatiquement.
+//A condition que l'utilisateur possède le droit d'écriture dans le dossier dans lequel le programme est lancé.
 int sauvegarder_graphe(GRAPHE *g){
 	if(g == NULL)
 		return -1;
@@ -373,6 +376,7 @@ int sauvegarder_graphe(GRAPHE *g){
 	if(g->premierSommet == NULL)
 		return -2;
 
+	//Pointeur temporaire car manipulations de listes chainées.
 	SOMMET *sommetCourant = g->premierSommet;
 	ELTADJ *sommetAdj = g->premierSommet->adj;
 
@@ -382,14 +386,16 @@ int sauvegarder_graphe(GRAPHE *g){
 
 	//Initialisation copie.
 
-	//Si le premier sommet n'est pas 1, on remplit de #V de x les premières lignes.
+	//Si le premier sommet du graphe n'est pas d'indice 1, on remplit de #V 'x' les premières lignes.
 	if(sommetCourant->label > 1){
 		//Remplir les lignes.
 		for(int i = 1; i < sommetCourant->label; i++){
 			//Remplir une ligne.
-			for(int j = 1; j <= g->nbS; j++){
+			for(int j = 1; j < g->nbS; j++){
 				fprintf(fichierGraphe, "x,");
 			}//Fin for()
+			//Cas séparé car on ne veut pas de virgule en fin de ligne.
+			fprintf(fichierGraphe, "x");
 			fprintf(fichierGraphe, "\n");
 		}//Fin for()
 	}//Fin if()
@@ -401,8 +407,7 @@ int sauvegarder_graphe(GRAPHE *g){
 		sommetAdj = sommetCourant->adj;
 		//Parcurir les sommets adjacents à un sommet. (liste adjacence pour un sommet.)
 		while(sommetAdj != NULL){
-			//On n'a pas un arc entre le sommet sommetCourant et le 1er sommet du graphe.
-			//Donc on remplit de x jusqu'à arriver au sommet du premier arc.
+			//On remplit de 'x' jusqu'à (non compris) un sommet pour lequel il existe un arc entre ce sommet et sommetCourant.
 			if(sommetAdj->dest > posLigneFichier){
 				for(int j = posLigneFichier; j < sommetAdj->dest; j++){
 					fprintf(fichierGraphe, "x,");
@@ -411,16 +416,25 @@ int sauvegarder_graphe(GRAPHE *g){
 
 			posLigneFichier = sommetAdj->dest + 1;
 
-			fprintf(fichierGraphe, "%d,", sommetAdj->info);
+			fprintf(fichierGraphe, "%d", sommetAdj->info);
+			//Si on est pas au dernier sommet, on met une vrigule.
+			if(posLigneFichier <= g->nbS)
+				fprintf(fichierGraphe, ",");
 
+			//On passe au sommet suivant de la liste d'adjacence de sommetCourant.
 			sommetAdj = sommetAdj->suivant;
 		}//Fin while()
+		//S'il n'existe pas d'arc entre le sommetCourant et le dernier sommet (en terme d'indice) du graphe, on remplit de 'x' jusqu'au dernier sommet du graphe.
 		if(posLigneFichier <= g->nbS){
-			for(int i = posLigneFichier; i <= g->nbS; i++)
+			for(int i = posLigneFichier; i < g->nbS; i++)
 				fprintf(fichierGraphe, "x,");
+			//On ne doit pas mettre de virgule en fin de ligne donc on le fait en dehors de la boucle.
+			fprintf(fichierGraphe, "x");
 		}
+		//On change de sommet donc on passe à la ligne suivante de la matrice d'adjacence.
 		fprintf(fichierGraphe, "\n");
 		posLigneFichier = 1;
+		//On passe au sommet suivant du graphe.
 		sommetCourant = sommetCourant->suivant;
 	}//Fin while()
 
@@ -428,5 +442,4 @@ int sauvegarder_graphe(GRAPHE *g){
 		fclose(fichierGraphe);
 
 	return 0;
-
 }//Fin sauvegarder_graphe()

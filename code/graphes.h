@@ -45,7 +45,7 @@ void afficherGraphe(GRAPHE *);
 int lireFichier(char *nomf, GRAPHE *);
 
 /* ------------------------------------------------------------------------- *
- ** Fonction pour sauvegarder un graphe dans un fichier.
+ ** Fonction pour sauvegarder un graphe (sa matrice d'adjacence) dans un fichier.
  *
  ** PARAMETRES
  * g, le graphe à sauvegarder.
@@ -53,7 +53,8 @@ int lireFichier(char *nomf, GRAPHE *);
  ** RETOUR
  * 0, graphe sauvegardé dans le fichier "output_graph.txt".
  * -1, pointeur g vaut NULL.
- *
+ * -2, le premierSommet (structure) vaut NULL.
+ * -3, impossible d'ouvrir le fichier ou il faut sauvegarder le graphe.
  * ------------------------------------------------------------------------- */
 int sauvegarder_graphe(GRAPHE *g);
 
