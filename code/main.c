@@ -56,7 +56,7 @@ int main(int argc, char **argv){
 		case erreur:
 			return EXIT_FAILURE;
 	}//Fin switch()
-
+	
 	/*
 	//Exemple
 	GRAPHE g;
@@ -82,7 +82,7 @@ int main(int argc, char **argv){
 		afficher_tableau(monTableau);
 		modifier_valeur_tableau(monTableau, 3, 5);
 		decrementer_valeur_tableau(monTableau, 3);
-		printf("Valeur en position 3 : %x\n", recuperer_valeur_tableau(monTableau, 3));
+		printf("Valeur en position 3 : %d\n", recuperer_valeur_tableau(monTableau, 3));
 		afficher_tableau(monTableau);
 		modifier_taille_tableau(monTableau, 4); //ERREUR
 		modifier_valeur_tableau(monTableau, 10, 1); //ERREUR

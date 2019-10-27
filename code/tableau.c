@@ -5,7 +5,7 @@
 #include "tableau.h"
 
 struct Tableau_t{
-	unsigned char* donnees;
+	int* donnees;
 	unsigned int taille;
 };
 
@@ -18,7 +18,7 @@ Tableau* creer_tableau(unsigned int taille){
 
 	nouveauTableau->taille = taille;
 
-	nouveauTableau->donnees = malloc(sizeof(unsigned char) * taille);
+	nouveauTableau->donnees = malloc(sizeof(int) * taille);
 	if(nouveauTableau->donnees == NULL){
 		if(nouveauTableau != NULL){
 			free(nouveauTableau);
@@ -37,7 +37,7 @@ void afficher_tableau(Tableau* tab){
 	assert(tab != NULL);
 
 	for(size_t i = 0; i < tab->taille; i++){
-		printf("%x ", tab->donnees[i]);
+		printf("%d ", tab->donnees[i]);
 	}
 	printf("\n");
 }//Fin afficher_tableau()
@@ -56,7 +56,7 @@ void modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille){
 		return;
 	}
 
-	unsigned char* nvTab = realloc(tab->donnees, sizeof(unsigned char) * nouvelleTaille);
+	int* nvTab = realloc(tab->donnees, sizeof(int) * nouvelleTaille);
 	if(nvTab != NULL){ //Realloc a fonctionné.
 		tab->taille = nouvelleTaille;
 		tab->donnees = nvTab;
@@ -68,7 +68,7 @@ void modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille){
 	}
 }//Fin modifier_taille_tableau()
 
-void modifier_valeur_tableau(Tableau* tab, unsigned int position, unsigned char nouvelleValeur){
+void modifier_valeur_tableau(Tableau* tab, unsigned int position, int nouvelleValeur){
 	assert(tab != NULL && tab->donnees != NULL);
 
 	if(position > tab->taille - 1){
@@ -107,7 +107,7 @@ void decrementer_valeur_tableau(Tableau* tab, unsigned int position){
 	return;
 }//Fin decrementer_valeur_tableau()
 
-unsigned char recuperer_valeur_tableau(Tableau* tab, unsigned int position){
+int recuperer_valeur_tableau(Tableau* tab, unsigned int position){
 	assert(tab != NULL && tab->donnees != NULL);
 
 	if(position > tab->taille - 1){

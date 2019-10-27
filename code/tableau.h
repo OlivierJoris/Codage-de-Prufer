@@ -52,7 +52,7 @@ void modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille);
 * /
 *
 *********************************/
-void modifier_valeur_tableau(Tableau* tab, unsigned int position, unsigned char nouvelleValeur);
+void modifier_valeur_tableau(Tableau* tab, unsigned int position, int nouvelleValeur);
 
 /*******************************
 ** Fonction pour incrémenter la valeur d'un élément du Tableau.
@@ -91,7 +91,7 @@ void decrementer_valeur_tableau(Tableau* tab, unsigned int position);
 * L'élément qui se trouve à la position 'position' dans le Tableau.
 *
 *********************************/
-unsigned char recuperer_valeur_tableau(Tableau* tab, unsigned int position);
+int recuperer_valeur_tableau(Tableau* tab, unsigned int position);
 
 /*******************************
 ** Fonction pour supprimer un tableau.
