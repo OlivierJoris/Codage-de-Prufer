@@ -1,7 +1,7 @@
 CC=gcc
 LD=gcc
 
-CFLAGS=--std=c99 --pedantic -Wall -W -Wmissing-prototypes -g
+CFLAGS= --pedantic -Wall -W -Wmissing-prototypes -g
 LDFLAGS=
 
 MODULES=main.c graphes.c prufer.c tableau.c utilitaires.c

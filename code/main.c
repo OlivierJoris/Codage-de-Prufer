@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "utilitaires.h"
 #include "tableau.h"
@@ -7,7 +8,7 @@
 #include "graphes.h"
 
 int main(int argc, char **argv){
-
+	
 	char fichier[31];
 
 	ModeUtilisation mode = gestion_des_arguments(argc, argv, fichier);
@@ -56,7 +57,7 @@ int main(int argc, char **argv){
 		case erreur:
 			return EXIT_FAILURE;
 	}//Fin switch()
-	
+
 	/*
 	//Exemple
 	GRAPHE g;
@@ -75,23 +76,18 @@ int main(int argc, char **argv){
 
 	/*
 	//Test type opaque tableau.
-	Tableau* monTableau = creer_tableau(5);
+	Tableau* monTableau = creer_tableau();
 	if(monTableau != NULL){
-		modifier_valeur_tableau(monTableau, 4, 3);
-		incrementer_valeur_tableau(monTableau, 0);
+		ajouter_element_tab(monTableau, 1);
+		ajouter_element_tab(monTableau, 2);
+		ajouter_element_tab(monTableau, 3);
+		ajouter_element_tab(monTableau, 2);
 		afficher_tableau(monTableau);
-		modifier_valeur_tableau(monTableau, 3, 5);
-		decrementer_valeur_tableau(monTableau, 3);
-		printf("Valeur en position 3 : %d\n", recuperer_valeur_tableau(monTableau, 3));
+		supprimer_element_tab(monTableau, 2);
 		afficher_tableau(monTableau);
-		modifier_taille_tableau(monTableau, 4); //ERREUR
-		modifier_valeur_tableau(monTableau, 10, 1); //ERREUR
-		incrementer_valeur_tableau(monTableau, 9); //ERREUR
-		decrementer_valeur_tableau(monTableau, 8); //ERREUR
-		//recuperer_valeur_tableau(monTableau, 7); //ERREUR
-		modifier_taille_tableau(monTableau, 5); //ERREUR
-		supprimerTableau(monTableau);
 	}
+	if(monTableau != NULL)
+		detruire_tableau(monTableau);
 	*/
 
   return EXIT_SUCCESS;

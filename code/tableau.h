@@ -1,6 +1,8 @@
 #ifndef __TABLEAU__
 #define __TABLEAU__
 
+#define FACTEUR_REALLOC 2
+
 typedef struct Tableau_t Tableau;
 
 /*******************************
@@ -13,7 +15,7 @@ typedef struct Tableau_t Tableau;
 * Un pointeur vers un Tableau. NULL sinon.
 *
 *********************************/
-Tableau* creer_tableau(unsigned int taille);
+Tableau* creer_tableau(void);
 
 /*******************************
 ** Fonction pour afficher un Tableau.
@@ -38,60 +40,11 @@ void afficher_tableau(Tableau* tab);
 * /
 *
 *********************************/
-void modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille);
+int modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille);
 
-/*******************************
-** Fonction pour modifier une valeur contenue dans un Tableau.
-*
-** Paramètres :
-* tab, le Tableau dont il faut modifier un élément.
-* position, la position de l'élément à modifier dans le Tableau.
-* nouvelleValeur, la valeur à attribuer à l'élément qui se trouve en position position.
-*
-** Retour :
-* /
-*
-*********************************/
-void modifier_valeur_tableau(Tableau* tab, unsigned int position, int nouvelleValeur);
+int ajouter_element_tab(Tableau* tab, int element);
 
-/*******************************
-** Fonction pour incrémenter la valeur d'un élément du Tableau.
-*
-** Paramètres :
-* tab, le Tableau dont il faut modifier un élément.
-* position, la position de l'élément à modifier dans le Tableau.
-*
-** Retour :
-* /
-*
-*********************************/
-void incrementer_valeur_tableau(Tableau* tab, unsigned int position);
-
-/*******************************
-** Fonction pour décrémenter la valeur d'un élément du Tableau.
-*
-** Paramètres :
-* tab, le Tableau dont il faut modifier un élément.
-* position, la position de l'élément à modifier dans le Tableau.
-*
-** Retour :
-* /
-*
-*********************************/
-void decrementer_valeur_tableau(Tableau* tab, unsigned int position);
-
-/*******************************
-** Fonction pour récupérer la valeur d'un élément dans le Tableau.
-*
-** Paramètres :
-* tab, le Tableau dont il faut récupérer un élément.
-* position, la position de l'élément à récupérer dans le Tableau..
-*
-** Retour :
-* L'élément qui se trouve à la position 'position' dans le Tableau.
-*
-*********************************/
-int recuperer_valeur_tableau(Tableau* tab, unsigned int position);
+int supprimer_element_tab(Tableau* tab, int element);
 
 /*******************************
 ** Fonction pour supprimer un tableau.
@@ -103,5 +56,5 @@ int recuperer_valeur_tableau(Tableau* tab, unsigned int position);
 * /
 *
 *********************************/
-void supprimerTableau(Tableau* tab);
+void detruire_tableau(Tableau* tab);
 #endif

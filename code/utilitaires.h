@@ -1,6 +1,8 @@
 #ifndef __UTILITAIRES__
 #define __UTILITAIRES__
 
+#include <unistd.h>
+
 typedef enum {erreur = -1, encodage, decodage}ModeUtilisation;
 
 /* ------------------------------------------------------------------------- *

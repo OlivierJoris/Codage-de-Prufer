@@ -7,18 +7,19 @@
 struct Tableau_t{
 	int* donnees;
 	unsigned int taille;
+	unsigned int dernierElementUtilise;
 };
 
-Tableau* creer_tableau(unsigned int taille){
+Tableau* creer_tableau(void){
 
 	Tableau* nouveauTableau = malloc(sizeof(Tableau));
 	if(nouveauTableau == NULL){
 		return NULL;
 	}
 
-	nouveauTableau->taille = taille;
+	nouveauTableau->taille = 2;
 
-	nouveauTableau->donnees = malloc(sizeof(int) * taille);
+	nouveauTableau->donnees = malloc(sizeof(int) * nouveauTableau->taille);
 	if(nouveauTableau->donnees == NULL){
 		if(nouveauTableau != NULL){
 			free(nouveauTableau);
@@ -26,34 +27,43 @@ Tableau* creer_tableau(unsigned int taille){
 		return NULL;
 	}
 
-	for(size_t i = 0; i < nouveauTableau->taille; i++){
-		nouveauTableau->donnees[i] = 0;
-	}
+	nouveauTableau->dernierElementUtilise = 0;
 
 	return nouveauTableau;
 }//Fin nouveauTableau()
 
 void afficher_tableau(Tableau* tab){
-	assert(tab != NULL);
+	if(tab == NULL)
+		return;
+	if(tab->donnees == NULL)
+		return;
 
-	for(size_t i = 0; i < tab->taille; i++){
+	if(tab->dernierElementUtilise == 0){
+		printf("Le tableau est vide.\n");
+		return;
+	}
+
+	for(size_t i = 0; i < tab->dernierElementUtilise; i++){
 		printf("%d ", tab->donnees[i]);
 	}
 	printf("\n");
 }//Fin afficher_tableau()
 
-void modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille){
-	assert(tab != NULL && tab->donnees != NULL);
+int modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille){
+	if(tab == NULL)
+		return -1;
+	if(tab->donnees == NULL)
+		return -2;
 
 	if(nouvelleTaille < tab->taille){
 		fprintf(stderr, "** ERREUR : Vous essayez de réallouer un tableau à une plus petite taille ce qui conduit à la perte de certaine données.\n");
 		fprintf(stderr, "Opération annulée.\n\n");
-		return;
+		return -3;
 	}
 	if(nouvelleTaille == tab->taille){
 		fprintf(stderr, "** ATTENTION : Vous essayez de reallouer le tableau avec la même taille.\n");
 		fprintf(stderr, "Pour économiser le temps processeur, opération refusée.\n\n");
-		return;
+		return -4;
 	}
 
 	int* nvTab = realloc(tab->donnees, sizeof(int) * nouvelleTaille);
@@ -61,64 +71,67 @@ void modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille){
 		tab->taille = nouvelleTaille;
 		tab->donnees = nvTab;
 		nvTab = NULL;
-		return;
+		return 0;
 	}else{ //Realloc n'a pas fonctionné.
 		fprintf(stderr, "** ERREUR : L'opération de réallocation du tableau a échoué.\n");
-		return;
+		return -5;
 	}
 }//Fin modifier_taille_tableau()
 
-void modifier_valeur_tableau(Tableau* tab, unsigned int position, int nouvelleValeur){
-	assert(tab != NULL && tab->donnees != NULL);
+int ajouter_element_tab(Tableau* tab, int element){
+	if(tab == NULL){
+		return -1;
+	}
+	if(tab->donnees == NULL)
+		return -2;
 
-	if(position > tab->taille - 1){
-		fprintf(stderr, "** ERREUR : Le tableau a une taille %u et vous voulez modifier l'élément en position %u. IMPOSSIBLE !\n", tab->taille, position);
-		return;
+	if(tab->dernierElementUtilise + 1 >= tab->taille){
+		modifier_taille_tableau(tab, tab->taille * FACTEUR_REALLOC);
+		tab->taille*=FACTEUR_REALLOC;
 	}
 
-	tab->donnees[position] = nouvelleValeur;
+	tab->donnees[tab->dernierElementUtilise] = element;
+	tab->dernierElementUtilise+=1;
 
-	return;
-}//Fin modifier_valeur_tableau()
+	return 0;
+}//Fin ajouter_element_tab()
 
-void incrementer_valeur_tableau(Tableau* tab, unsigned int position){
-	assert(tab != NULL && tab->donnees != NULL);
+static int decalage_gauche_tab(Tableau* tab, size_t position){
+	if(tab == NULL)
+		return -1;
+	if(tab->donnees == NULL)
+		return -2;
 
-	if(position > tab->taille - 1){
-		fprintf(stderr, "** ERREUR : Le tableau a une taille %u et vous voulez modifier l'élément en position %u. IMPOSSIBLE !\n", tab->taille, position);
-		return;
+	for(size_t i = position; i < tab->dernierElementUtilise - 1; i++){
+		tab->donnees[i] = tab->donnees[i + 1];
 	}
 
-	tab->donnees[position]++;
+	return 0;
+}//Fin decalage_gauche_tab()
 
-	return;
-}//Fin incrementer_valeur_tableau()
+int supprimer_element_tab(Tableau* tab, int element){
+	if(tab == NULL)
+		return -1;
+	if(tab->donnees == NULL)
+		return -2;
 
-void decrementer_valeur_tableau(Tableau* tab, unsigned int position){
-	assert(tab != NULL && tab->donnees != NULL);
+	for(unsigned int i = 0; i < tab->dernierElementUtilise; i++){
+		if(tab->donnees[i] == element){
+			tab->donnees[i] = 0;
+			int resultatDecalage = decalage_gauche_tab(tab, i);
+			if(resultatDecalage < 0){
+				fprintf(stderr, "** ERREUR : L'opération de décalage a échoué.\n");
+				return -3;
+			}//Fin if()
+			i-=1;
+			tab->dernierElementUtilise-=1;
+		}//Fin if()
+	}//Fin for()
 
-	if(position > tab->taille - 1){
-		fprintf(stderr, "** ERREUR : Le tableau a une taille %u et vous voulez modifier l'élément en position %u. IMPOSSIBLE !\n", tab->taille, position);
-		return;
-	}
+	return 0;
+}//Fin supprimer_element_tab()
 
-	tab->donnees[position]--;
-
-	return;
-}//Fin decrementer_valeur_tableau()
-
-int recuperer_valeur_tableau(Tableau* tab, unsigned int position){
-	assert(tab != NULL && tab->donnees != NULL);
-
-	if(position > tab->taille - 1){
-		fprintf(stderr, "** ERREUR : Le tableau a une taille %u et vous voulez récupérer l'élément en position %u. IMPOSSIBLE !\n", tab->taille, position);
-		exit(-1);
-	}
-
-	return tab->donnees[position];
-}//Fin recuperer_valeur_tableau()
-
-void supprimerTableau(Tableau* tab){
+void detruire_tableau(Tableau* tab){
 	if(tab != NULL){
 		if(tab->donnees != NULL){
 			free(tab->donnees);
