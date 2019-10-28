@@ -21,10 +21,19 @@ int main(int argc, char **argv){
 			if(resultatLecture < 0){
 				return EXIT_FAILURE;
 			}
-			afficherGraphe(&g);
+			//afficherGraphe(&g);
 
-			sauvegarder_graphe(&g);
+			Tableau* voisinsSommet4;
+			voisinsSommet4 = obtenir_voisin_sommet(&g, 4);
+			if(voisinsSommet4 == NULL){
+				fprintf(stderr, "** ERREUR lors de la sauvegarde des voisins d'un sommet.\n");
+				return EXIT_FAILURE;
+			}
 
+			afficher_tableau(voisinsSommet4);
+			//sauvegarder_graphe(&g);
+
+			detruire_tableau(voisinsSommet4);
 			supprimerGraphe(&g);
 
 			return EXIT_SUCCESS;
@@ -57,7 +66,7 @@ int main(int argc, char **argv){
 		case erreur:
 			return EXIT_FAILURE;
 	}//Fin switch()
-	
+
 	/*
 	//Exemple
 	GRAPHE g;

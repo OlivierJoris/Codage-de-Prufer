@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "tableau.h"
 #include "graphes.h"
 
 void initialiserGraphe(GRAPHE *g){
@@ -443,3 +444,50 @@ int sauvegarder_graphe(GRAPHE *g){
 
 	return 0;
 }//Fin sauvegarder_graphe()
+
+Tableau* obtenir_voisin_sommet(GRAPHE* g, int labelSommet){
+	if(g == NULL)
+		return NULL;
+
+	if(g->premierSommet == NULL)
+		return NULL;
+
+	if(labelSommet < 1){
+		fprintf(stderr, "** ERREUR : vous essayez de récupérer un sommet dont le label < 1.\n");
+		return NULL;
+	}
+
+	if(labelSommet > g->nbS){
+		fprintf(stderr, "** ERREUR : vous essayer d'obtenir les voisins du sommet %d mais le graphe ne contient que %d sommets.\n", labelSommet, g->nbS);
+		return NULL;
+	}
+
+	SOMMET* tmpSommet = g->premierSommet;
+	//1 car on sait qu'on a au moins 1 sommet sinon g->premierSommet vaudrait NULL.
+	int labelSommetCourant = 1;
+
+	//On parcourt la liste jusqu'à arriver au sommet avec le label labelSommet.
+	while(labelSommetCourant < labelSommet){
+		if(tmpSommet->suivant == NULL){
+			fprintf(stderr, "** ERREUR dans le parcours de la liste.\n");
+			return NULL;
+		}
+		tmpSommet = tmpSommet->suivant;
+		labelSommetCourant++;
+	}//Fin while()
+
+	//La liste des sommets adjacents au sommet considéré (labelSommet) est ses voisins.
+	ELTADJ* listeSommetsAdjacents = tmpSommet->adj;
+	Tableau* voisins = creer_tableau();
+	if(voisins == NULL)
+		return NULL;
+
+	//Il faut parcourir la liste d'adjacence et récupérer 'dest' pour chaque sommet et mettre 'dest' dans un tableau.
+	//Ainsi, le tableau contiendra les voisins du sommet labelSommet.
+	while(listeSommetsAdjacents != NULL){
+		ajouter_element_tab(voisins, listeSommetsAdjacents->dest);
+		listeSommetsAdjacents = listeSommetsAdjacents->suivant;
+	}//Fin while()
+
+	return voisins;
+}//Fin obtenir_voisin_sommet()

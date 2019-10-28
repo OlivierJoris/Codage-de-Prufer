@@ -1,6 +1,8 @@
 #ifndef GRAPHES_H
 #define GRAPHES_H
 
+#include "tableau.h"
+
 #define MAX 10000
 
 struct eltadj{ //Liste d'adjacence -- Sommet adjacent à un somme donné.
@@ -57,5 +59,18 @@ int lireFichier(char *nomf, GRAPHE *);
  * -3, impossible d'ouvrir le fichier ou il faut sauvegarder le graphe.
  * ------------------------------------------------------------------------- */
 int sauvegarder_graphe(GRAPHE *g);
+
+/* ------------------------------------------------------------------------- *
+ ** Fonction pour obtenir les voisins d'un sommet.
+ *
+ ** PARAMETRES
+ * g, le graphe.
+ * labelSommet, le label du sommet dont on veut obtenir les voisins.
+ *
+ ** RETOUR
+ * Un tableau contenant les voisins du sommet 'labelSommet'.
+ * NULL sinon.
+ * ------------------------------------------------------------------------- */
+Tableau* obtenir_voisin_sommet(GRAPHE* g, int labelSommet);
 
 #endif

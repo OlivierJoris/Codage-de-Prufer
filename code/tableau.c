@@ -32,7 +32,7 @@ Tableau* creer_tableau(void){
 
 void afficher_tableau(Tableau* tab){
 	if(tab == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers tab dans affciher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers tab dans afficher_tableau vaut NULL.\n");
 		return;
 	}
 	if(tab->donnees == NULL){

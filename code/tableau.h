@@ -89,6 +89,8 @@ int supprimer_element_tab(Tableau* tab, int element);
 
 /*******************************
 ** Fonction qui construit l'union de 2 tableaux.
+* ATTENTION : Si un tableau contient des élements en double alors erreur.
+*Il faut que chaque élément soit unique.
 *
 ** Paramètres :
 * tab1, le premier tableau de l'union.
