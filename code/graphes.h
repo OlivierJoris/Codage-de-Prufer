@@ -97,4 +97,17 @@ Tableau* obtenir_sommet_graphe(GRAPHE* g);
  * ------------------------------------------------------------------------- */
 bool test_connexite(GRAPHE* g);
 
+/* ------------------------------------------------------------------------- *
+ ** Fonction pour déterminer si un graphe contient un cycle.
+ *
+ ** PARAMETRES
+ * g, le graphe étudié.
+ *
+ ** RETOUR
+ * 1, le graphe contient un cycle.
+ * 0, le graphe ne contient pas de cycle.
+ * -1, g vaut NULL.
+ * ------------------------------------------------------------------------- */
+int contient_cycle(GRAPHE *g);
+
 #endif

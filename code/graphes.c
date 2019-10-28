@@ -670,3 +670,12 @@ bool test_connexite(GRAPHE* g){
 
 	return egaliteTab;
 }//Fin test_connexite()
+
+int contient_cycle(GRAPHE *g){
+	if(!g)
+		return -1;
+
+	SOMMET *v = g->premierSommet;
+
+	while()
+}
