@@ -1,11 +1,17 @@
 #ifndef __TABLEAU__
 #define __TABLEAU__
 
+#include <stdbool.h>
+
 //Constante multiplicative pour la réallocation du tableau.
 #define FACTEUR_REALLOC 2
 
 //Type opaque Tableau.
-typedef struct Tableau_t Tableau;
+typedef struct Tableau_t{
+	int* donnees; //Le tableau de données.
+	unsigned int taille; //La taille en mémoire du tableau.
+	unsigned int dernierElementUtilise; //Nombre d'éléments présents dans le tableau.
+}Tableau;
 
 /*******************************
 ** Fonction pour créer un Tableau.
@@ -80,6 +86,54 @@ int ajouter_element_tab(Tableau* tab, int element);
 *
 *********************************/
 int supprimer_element_tab(Tableau* tab, int element);
+
+/*******************************
+** Fonction qui construit l'union de 2 tableaux.
+*
+** Paramètres :
+* tab1, le premier tableau de l'union.
+* tab2, le deuxième tableau de l'union.
+*
+** Retour :
+* Pointeur vers un Tableau qui contient l'union de tab1 et tab2. NULL en cas d'erreur.
+*
+*********************************/
+Tableau* union_tab(Tableau* tab1, Tableau* tab2);
+
+/*******************************
+** Fonction qui teste l'égalité de 2 tableaux.
+*
+** Paramètres :
+* tab1, le premier tableau.
+* tab2, le deuxième tableau.
+*
+** Retour :
+* true si les tableaux sont les mêmes.
+* false si les tableaux ne sont pas les mêmes ou erreur.
+*
+*********************************/
+bool egalite_tableaux(Tableau* tab1, Tableau* tab2);
+
+/*******************************
+** Fonction qui réalise la différence de 2 tableaux.
+* Les deux tableaux sont considérés commme des ensembles.
+* Donc, on effectue l'opération tab1\tab2.
+* ATTENTION : les éléments de tab1 sont modifiés par cette fonction.
+*
+** Paramètres :
+* tab1, le premier tableau.
+* tab2, le deuxième tableau.
+*
+** Retour :
+* 0, la différence a été réalisée correctement.
+* -1, pointeur tab1 vaut NULL.
+* -2, pointeur vers les données dans la structure Tableau de tab1 vaut NULL.
+* -3, pointeur tab2 vaut NULL.
+* -4, pointeur vers les données dans la structure Tableau de tab2 vaut NULL.
+* -5, problème lors de la suppression d'un élément de tab1.
+*
+*********************************/
+int difference_tableaux(Tableau* tab1, Tableau* tab2);
 
 /*******************************
 ** Fonction pour supprimer un tableau.

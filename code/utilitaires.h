@@ -2,6 +2,7 @@
 #define __UTILITAIRES__
 
 #include <unistd.h>
+#include <getopt.h>
 
 typedef enum {erreur = -1, encodage, decodage}ModeUtilisation;
 
