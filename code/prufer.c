@@ -12,7 +12,7 @@ CodagePrufer *creer_codage_prufer(unsigned int taille){
 	}
 
 	nvCodage->taille = taille;
-	nvCodage->suitePrufer = malloc(sizeof(unsigned int) * taille);
+	nvCodage->suitePrufer = malloc(sizeof(int) * taille);
 	if(nvCodage->suitePrufer == NULL){
 		fprintf(stderr, "** ERREUR : Erreur à l'allocation de la suite de Prüfer.\n");
 		free(nvCodage);
@@ -46,7 +46,7 @@ void afficher_codage_prufer(CodagePrufer *codage){
 	printf("Codage : ");
 
 	for(unsigned int i = 0; i < codage->taille; i++){
-		printf("%u ", codage->suitePrufer[i]);
+		printf("%d ", codage->suitePrufer[i]);
 	}
 	printf("\n");
 }//Fin afficher_codage_prufer()
@@ -91,14 +91,14 @@ int lire_codage_prufer(CodagePrufer *codage, char *nomFichier){
 	if(fichier == NULL)
 		return -4;
 
-	unsigned int nombreLu;
+	int nombreLu;
 
 	unsigned int tailleCodage;
 
 	fscanf(fichier, "%u\n", &tailleCodage);
 
 	for(unsigned int i = 0; i < tailleCodage; i++){
-		fscanf(fichier, "%u ", &nombreLu);
+		fscanf(fichier, "%d ", &nombreLu);
 		codage->suitePrufer[i] = nombreLu;
 	}//Fin for()
 
@@ -107,3 +107,49 @@ int lire_codage_prufer(CodagePrufer *codage, char *nomFichier){
 
 	return 0;
 }//Fin lire_codage_prufer()
+
+CodagePrufer* generer_codage_prufer(GRAPHE* arbre){
+	if(arbre == NULL){
+		fprintf(stderr, "** ERREUR : pointeur vers le graphe vaut NULL.\n");
+		return NULL;
+	}
+	if(arbre->premierSommet == NULL){
+		fprintf(stderr, "** ERREUR : pointeur vers le premier sommet du graphe vaut NULL.\n");
+		return NULL;
+	}
+	if(arbre->nbS <= 2){
+		fprintf(stderr, "** ERREUR : votre arbre contient moins de 3 sommets donc on ne peut PAS en trouver le codage de Prüfer.\n");
+		return NULL;
+	}
+
+	//Un codage de Prüfer contient tjrs #V - 2 éléments.
+	CodagePrufer* nvCodage = creer_codage_prufer(arbre->nbS - 2);
+	if(nvCodage == NULL){
+		fprintf(stderr, "** ERREUR à la création de la structure du codage de Prüfer.\n");
+		return NULL;
+	}
+
+	unsigned int indiceCodage = 0;
+	int resultatSupprimerSommet;
+	SOMMET* plusPetitLabel;
+
+	while(arbre->nbS > 2){
+
+		//On récupére le sommet qui a le plus petit label.
+		plusPetitLabel = arbre->premierSommet;
+		//On le met dans la suite de Prüfer le seul sommet qui lui adjacent.
+		nvCodage->suitePrufer[indiceCodage] = plusPetitLabel->adj->dest;
+
+		indiceCodage++;
+
+		//On supprime le sommet de plus petit label;
+		resultatSupprimerSommet = supprimerSommet(arbre, plusPetitLabel->label);
+		if(resultatSupprimerSommet < 0){
+			fprintf(stderr, "** ERREUR lors de la suppression d'un sommet de l'arbre.\n");
+			detruire_codage_prufer(nvCodage);
+			return NULL;
+		}
+	}//Fin while()
+
+	return nvCodage;
+}//Fin generer_codage_prufer()

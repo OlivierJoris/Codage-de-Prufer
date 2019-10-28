@@ -1,10 +1,12 @@
 #ifndef __PRUFER__
 #define  __PRUFER__
 
+#include "graphes.h"
+
 //Structure qui représente un codage de Prüfer.
 typedef struct CodagePrufer_t{
 	unsigned int taille; //La taille du codage de Prüfer.
-	unsigned int *suitePrufer; //La suite de Prüfer (suite de nombres).
+	int* suitePrufer; //La suite de Prüfer (suite de nombres).
 }CodagePrufer;
 
 /* ------------------------------------------------------------------------- *
@@ -73,5 +75,19 @@ int lire_taille_codage(char *nomFichier);
  *
  * ------------------------------------------------------------------------- */
 int lire_codage_prufer(CodagePrufer *codage, char *nomFichier);
+
+/* ------------------------------------------------------------------------- *
+ * Génére le codage de Prüfer pour un arbre donnée.
+ *
+ * PARAMETERS
+ * arbre, l'arbre dont on veut obtenir le codage de Prüfer.
+ *
+ * RETOUR
+ * Un pointeur vers CodagePrufer (structure) qui contient le codage de Prüfer
+ * 	de l'arbre donné.
+ * NULL en cas d'erreur.
+ *
+ * ------------------------------------------------------------------------- */
+CodagePrufer* generer_codage_prufer(GRAPHE* arbre);
 
 #endif
