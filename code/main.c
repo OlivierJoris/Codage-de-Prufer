@@ -38,10 +38,27 @@ int main(int argc, char **argv){
 			*/
 
 			bool testConnexite = test_connexite(&g);
-			if(testConnexite)
+			if(testConnexite){
 				printf("Le graphe est connexe.\n");
-			else
-				printf("Le graphe n'est pas connexe.\n");
+			}else{
+				fprintf(stderr, "Le graphe n'est pas connexe donc le graphe n'est pas un arbre.\n");
+				fprintf(stderr, "Le codage de Prüfer s'applique uniquement au arbre donc on ne peut pas chercher le codage de Prüfer associé au graphe donné.\n");
+				supprimerGraphe(&g);
+				return EXIT_FAILURE;
+			}
+
+			//Il faut également vérifier que le graphe ne contient pas de cycle.
+
+			CodagePrufer* codage = generer_codage_prufer(&g);
+			if(codage == NULL){
+				fprintf(stderr, "** ERREUR à la génération du codage de Prüfer.\n");
+				supprimerGraphe(&g);
+				return EXIT_FAILURE;
+			}
+
+			afficher_codage_prufer(codage);
+
+			detruire_codage_prufer(codage);
 
 			supprimerGraphe(&g);
 
@@ -75,6 +92,14 @@ int main(int argc, char **argv){
 		case erreur:
 			return EXIT_FAILURE;
 	}//Fin switch()
+
+	/*************************************************************************
+	*																		 *
+	*																		 *
+	* Tests des fonctions auxiliaires au programme.							 *
+	*																		 *
+	*																		 *
+	**************************************************************************/
 
 	/*
 	//Exemple
