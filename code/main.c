@@ -23,6 +23,7 @@ int main(int argc, char **argv){
 			}
 			//afficherGraphe(&g);
 
+			/* Test voisins d'un sommet donné.
 			Tableau* voisinsSommet4;
 			voisinsSommet4 = obtenir_voisin_sommet(&g, 4);
 			if(voisinsSommet4 == NULL){
@@ -34,6 +35,14 @@ int main(int argc, char **argv){
 			//sauvegarder_graphe(&g);
 
 			detruire_tableau(voisinsSommet4);
+			*/
+
+			bool testConnexite = test_connexite(&g);
+			if(testConnexite)
+				printf("Le graphe est connexe.\n");
+			else
+				printf("Le graphe n'est pas connexe.\n");
+
 			supprimerGraphe(&g);
 
 			return EXIT_SUCCESS;

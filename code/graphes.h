@@ -73,4 +73,28 @@ int sauvegarder_graphe(GRAPHE *g);
  * ------------------------------------------------------------------------- */
 Tableau* obtenir_voisin_sommet(GRAPHE* g, int labelSommet);
 
+/* ------------------------------------------------------------------------- *
+ ** Fonction pour obtenir les sommets d'un graphe.
+ *
+ ** PARAMETRES
+ * g, le graphe.
+ *
+ ** RETOUR
+ * Un tableau contenant les sommets du graphe.
+ * NULL sinon.
+ * ------------------------------------------------------------------------- */
+Tableau* obtenir_sommet_graphe(GRAPHE* g);
+
+/* ------------------------------------------------------------------------- *
+ ** Fonction pour tester la connexité d'un graphe.
+ *
+ ** PARAMETRES
+ * g, le graphe dont on doit vérifier la connexité.
+ *
+ ** RETOUR
+ * true si le graphe est connexe.
+ * false si le graphe n'est pas connexe ou erreur.
+ * ------------------------------------------------------------------------- */
+bool test_connexite(GRAPHE* g);
+
 #endif

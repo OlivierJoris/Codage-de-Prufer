@@ -71,14 +71,14 @@ int modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille){
 		fprintf(stderr, "Opération annulée.\n\n");
 		return -3;
 	}
-
+	/*
 	//Realloc a la même taille.
 	if(nouvelleTaille == tab->taille){
 		fprintf(stderr, "** ATTENTION : Vous essayez de reallouer le tableau avec la même taille.\n");
 		fprintf(stderr, "Pour économiser le temps processeur, opération refusée.\n\n");
 		return -4;
 	}
-
+	*/
 	//Realloc dans un pointeur temporaire car si échec de la réallocation, on ne veut pas perdre le pointeur vers les données.
 	int* nvTab = realloc(tab->donnees, sizeof(int) * nouvelleTaille);
 	if(nvTab != NULL){ //Realloc a fonctionné.
@@ -255,6 +255,13 @@ Tableau* union_tab(Tableau* tab1, Tableau* tab2){
 		return NULL;
 	}
 
+	if(tab1->dernierElementUtilise == 0){
+		return tab2;
+	}
+	if(tab2->dernierElementUtilise == 0){
+		return tab1;
+	}
+
 	//On crée le tableau qui va contenir l'union de tab1 et tab2.
 	Tableau* tabUnion = creer_tableau();
 	if(tabUnion == NULL){
@@ -276,32 +283,32 @@ Tableau* union_tab(Tableau* tab1, Tableau* tab2){
 
 	//S'ils ne sont pas triés, on les trie.
 	if(!tab1Trie){
-		printf("Tab1 dans union_tab n'est pas trié.\n");
+		//printf("Tab1 dans union_tab n'est pas trié.\n");
 		int resultatTri1 = tri_tableau(tab1);
 		if(resultatTri1 < 0){
 			fprintf(stderr, "** ERREUR lors du tri de tab1 dans union_tab\n");
 			detruire_tableau(tabUnion);
 			return NULL;
 		}
-	}else
-		printf("Tab1 dans union_tab est trié.\n");
-
+	}else{
+		//printf("Tab1 dans union_tab est trié.\n");
+	}
 	if(!tab2Trie){
-		printf("Tab2 dans union_tab n'est pas trié.\n");
+		//printf("Tab2 dans union_tab n'est pas trié.\n");
 		int resultatTri2 = tri_tableau(tab2);
 		if(resultatTri2 < 0){
 			fprintf(stderr, "** ERREUR lors du tri de tab2 dans union_tab\n");
 			detruire_tableau(tabUnion);
 			return NULL;
 		}
-	}else
-		printf("Tab2 dans union_tab est trié.\n");
+	}else{
+		//printf("Tab2 dans union_tab est trié.\n");
+	}
 
-
-	printf("1er tab après tri :\n");
-	afficher_tableau(tab1);
-	printf("2ème tab après tri :\n");
-	afficher_tableau(tab2);
+	//printf("1er tab après tri :\n");
+	//afficher_tableau(tab1);
+	//printf("2ème tab après tri :\n");
+	//afficher_tableau(tab2);
 
 	//On parcourt les 2 tableaux simultanément avec un indice de parcours pour chaque tableau.
 	//A chaque tour de boucle, on compare les 2 éléments dans les tableaux aux indices reespectifs.
@@ -311,7 +318,7 @@ Tableau* union_tab(Tableau* tab1, Tableau* tab2){
 
 	//Tant qu'on arrive pas à la fin d'un des 2 tableaux.
 	while(posTab1 <= tab1->dernierElementUtilise - 1 && posTab2 <= tab2->dernierElementUtilise - 1){
-		printf("posTab1 = %u || posTab2 = %u\n", posTab1, posTab2);
+		//printf("posTab1 = %u || posTab2 = %u\n", posTab1, posTab2);
 
 		//Si l'élément est le même dans les 2 tabs, on ajoute à l'union et on incrémente les 2 indices de parcours.
 		if(tab1->donnees[posTab1] == tab2->donnees[posTab2]){
@@ -405,29 +412,29 @@ bool egalite_tableaux(Tableau* tab1, Tableau* tab2){
 
 	//S'ils ne sont pas triés, on les trie.
 	if(!tab1Trie){
-		printf("Tab1 dans union_tab n'est pas trié.\n");
+		//printf("Tab1 dans egalite_tableaux n'est pas trié.\n");
 		int resultatTri1 = tri_tableau(tab1);
 		if(resultatTri1 < 0){
-			fprintf(stderr, "** ERREUR lors du tri de tab1 dans union_tab\n");
+			fprintf(stderr, "** ERREUR lors du tri de tab1 dans egalite_tableaux\n");
 			return NULL;
 		}
 	}else
-		printf("Tab1 dans union_tab est trié.\n");
+		//printf("Tab1 dans union_tab est trié.\n");
 
 	if(!tab2Trie){
-		printf("Tab2 dans union_tab n'est pas trié.\n");
+		//printf("Tab2 dans egalite_tableaux n'est pas trié.\n");
 		int resultatTri2 = tri_tableau(tab2);
 		if(resultatTri2 < 0){
-			fprintf(stderr, "** ERREUR lors du tri de tab2 dans union_tab\n");
+			fprintf(stderr, "** ERREUR lors du tri de tab2 dans egalite_tableaux\n");
 			return NULL;
 		}
 	}else
-		printf("Tab2 dans union_tab est trié.\n");
+		//printf("Tab2 dans egalite_tableaux est trié.\n");
 
-	printf("1er tab après tri :\n");
-	afficher_tableau(tab1);
-	printf("2ème tab après tri :\n");
-	afficher_tableau(tab2);
+	//printf("1er tab après tri :\n");
+	//afficher_tableau(tab1);
+	//printf("2ème tab après tri :\n");
+	//afficher_tableau(tab2);
 
 	//On sait qu'ils ont la même taille donc on prend indifférement tab1->dernierElementUtilise ou tab2->dernierElementUtilise.
 	//On parcourt les deux tableaux en même temps et on vérifie si les éléments sont égaux 2 à 2.
@@ -438,7 +445,7 @@ bool egalite_tableaux(Tableau* tab1, Tableau* tab2){
 	}//Fin for()
 
 	return true;
-}//Fin egalite_ensemble()
+}//Fin egalite_tableaux()
 
 int difference_tableaux(Tableau* tab1, Tableau* tab2){
 	if(tab1 == NULL){

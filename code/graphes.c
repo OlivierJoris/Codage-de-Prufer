@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "utilitaires.h"
 #include "tableau.h"
 #include "graphes.h"
 
@@ -491,3 +492,181 @@ Tableau* obtenir_voisin_sommet(GRAPHE* g, int labelSommet){
 
 	return voisins;
 }//Fin obtenir_voisin_sommet()
+
+Tableau* obtenir_sommet_graphe(GRAPHE* g){
+	if(g == NULL){
+		fprintf(stderr, "** ERREUR : pointeur vers le graphe vaut NULL.\n");
+		return NULL;
+	}
+	if(g->premierSommet == NULL){
+		fprintf(stderr, "** ERREUR : pointeur vers premierSommet vaut NULL.\n");
+		return NULL;
+	}
+
+	Tableau* tabSommets = creer_tableau();
+	if(tabSommets == NULL){
+		fprintf(stderr, "** ERREUR à la création du tableau qui va contenir les sommets du graphe.\n");
+		return NULL;
+	}
+
+	int resultatAJout;
+	SOMMET* listeSommets = g->premierSommet;
+
+	//Il faut parcourir la liste des sommets du graphe et ajouter le label de chaque sommet dans le tableau.
+	while(listeSommets != NULL){
+
+		resultatAJout = ajouter_element_tab(tabSommets, listeSommets->label);
+		if(resultatAJout < 0){
+			fprintf(stderr, "** ERREUR à l'ajout d'un élément dans le tableau dans obtenir_sommet_graphe.\n");
+			detruire_tableau(tabSommets);
+			return NULL;
+		}//Fin if()
+
+		if(listeSommets->suivant == NULL)
+			break;
+		else
+			listeSommets = listeSommets->suivant;
+	}//Fin while()
+
+	return tabSommets;
+}//Fin obtenir_sommet_graphe()
+
+//Implémentation de l'algo. slide 130 beamer 1.
+bool test_connexite(GRAPHE* g){
+	if(g == NULL){
+		fprintf(stderr, "** ERREUR le pointeur vers le graphe vaut NULL dans test_connexite.\n");
+		return false;
+	}
+
+	int sommetAleatoire = generer_nombre_aleatoire(1, g->nbS);;
+
+	Tableau* composante = creer_tableau();
+	if(composante == NULL){
+		fprintf(stderr, "** ERREUR à la création du tableau qui va contenir les composantes.\n");
+		return false;
+	}
+
+	Tableau* new = creer_tableau();
+	if(new == NULL){
+		fprintf(stderr, "** ERREUR à la création du tableau new.\n");
+		detruire_tableau(composante);
+		return false;
+	}
+
+	//Initialisation
+
+	int resultatAjout;
+
+	resultatAjout = ajouter_element_tab(composante, sommetAleatoire);
+	if(resultatAjout < 0){
+		fprintf(stderr, "** ERREUR à l'ajout d'un élément dans le tableau composante.\n");
+		detruire_tableau(composante);
+		detruire_tableau(new);
+		return false;
+	}
+
+	resultatAjout = ajouter_element_tab(new, sommetAleatoire);
+	if(resultatAjout < 0){
+		fprintf(stderr, "** ERREUR à l'ajout d'un élément dans le tableau new.\n");
+		detruire_tableau(composante);
+		detruire_tableau(new);
+		return false;
+	}
+
+	Tableau* voisins = NULL;
+	Tableau* voisinsSommet = NULL;
+
+	//Boucle principale
+
+	while(new->dernierElementUtilise != 0){
+
+		//Tableau* tmp;
+
+		voisins = creer_tableau();
+		if(voisins == NULL){
+			fprintf(stderr, "** ERREUR à la création du tableau qui va contenir les voisins.\n");
+			detruire_tableau(composante);
+			detruire_tableau(new);
+			return false;
+		}
+
+		for(size_t i = 0; i < new->dernierElementUtilise; i++){
+
+			voisinsSommet = obtenir_voisin_sommet(g, new->donnees[i]);
+			if(voisinsSommet == NULL){
+				fprintf(stderr, "** ERREUR à la récupération des voisins.\n");
+				detruire_tableau(composante);
+				detruire_tableau(new);
+				detruire_tableau(voisins);
+				return false;
+			}//Fin if()
+
+			//tmp = voisins;
+			//fprintf(stderr, "Taille de voisins : %u || taille de voisinsSommet = %u.\n", voisins->dernierElementUtilise, voisinsSommet->dernierElementUtilise);
+			voisins = union_tab(voisins, voisinsSommet);
+
+			//if(tmp != NULL)
+			//	detruire_tableau(tmp);
+
+			if(voisins == NULL){
+				fprintf(stderr, "** ERREUR union voisins et voisinsSommet\n");
+				detruire_tableau(composante);
+				detruire_tableau(new);
+				detruire_tableau(voisins);
+				detruire_tableau(voisinsSommet);
+				return false;
+			}
+
+			//detruire_tableau(voisinsSommet);
+		}//Fin for()
+
+		int resultatDiff = difference_tableaux(voisins, composante);
+		if(resultatDiff < 0){
+			fprintf(stderr, "** ERREUR lors de la différence de tableaux.\n");
+			detruire_tableau(composante);
+			detruire_tableau(new);
+			detruire_tableau(voisins);
+			detruire_tableau(voisinsSommet);
+			return false;
+		}
+
+		//Tableau* tmpNew = new;
+
+		new = voisins;
+
+		//detruire_tableau(tmpNew);
+
+		Tableau* tmpRetourUnion;
+
+		tmpRetourUnion = union_tab(composante, new);
+		if(tmpRetourUnion == NULL){
+			fprintf(stderr, "** ERREUR lors de l'union de tableaux.\n");
+			detruire_tableau(composante);
+			detruire_tableau(new);
+			detruire_tableau(voisins);
+			detruire_tableau(voisinsSommet);
+			return false;
+		}
+
+		//detruire_tableau(composante);
+
+		composante = tmpRetourUnion;
+
+	}//Fin while()
+
+	Tableau* sommetsGraphe = obtenir_sommet_graphe(g);
+	if(sommetsGraphe == NULL){
+		fprintf(stderr, "** ERREUR lors de la récupération des sommets du graphe.\n");
+		detruire_tableau(composante);
+		detruire_tableau(new);
+		return false;
+	}
+
+	bool egaliteTab = egalite_tableaux(composante, sommetsGraphe);
+
+	detruire_tableau(composante);
+	detruire_tableau(new);
+	detruire_tableau(sommetsGraphe);
+
+	return egaliteTab;
+}//Fin test_connexite()

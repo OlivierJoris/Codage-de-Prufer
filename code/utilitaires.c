@@ -52,3 +52,14 @@ ModeUtilisation gestion_des_arguments(int argc, char **argv, char *source){
 
 	return mode;
 }//Fin gestion_des_arguments()
+
+int generer_nombre_aleatoire(const int borneMin, const int borneMax){
+	if(borneMin > borneMax){
+		fprintf(stderr, "La borne min est plus grande que la borne max.\n");
+		return EXIT_FAILURE;
+	}
+
+	int nombreAleatoire = rand() % (borneMax - borneMin + 1) + borneMin;
+
+	return nombreAleatoire;
+}//Fin generer_nombre_aleatoire()
