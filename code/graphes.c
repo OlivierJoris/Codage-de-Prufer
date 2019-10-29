@@ -671,11 +671,32 @@ bool test_connexite(GRAPHE* g){
 	return egaliteTab;
 }//Fin test_connexite()
 
-int contient_cycle(GRAPHE *g){
-	if(!g)
-		return -1;
+bool contient_cycle(GRAPHE *g){
+	if(g == NULL)
+		return true;
 
-	SOMMET *v = g->premierSommet;
+	GRAPHE *tmp = g;
+	SOMMET *s = tmp->premierSommet;
 
-	while()
+	unsigned int degreS = 0;
+
+	while(s != NULL){
+
+		while(s->adj != NULL){
+			++degreS;
+			s->adj = s->adj->suivant;
+		}
+
+		if(degreS == 1)
+			supprimerSommet(tmp, s->label);
+		
+		s = s->suivant;
+
+		degreS = 0;
+	}
+
+	if(tmp->premierSommet->suivant == NULL)
+		return false;
+
+	return true;
 }
