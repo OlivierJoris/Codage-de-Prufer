@@ -21,7 +21,7 @@ int main(int argc, char **argv){
 			if(resultatLecture < 0){
 				return EXIT_FAILURE;
 			}
-			//afficherGraphe(&g);
+			// afficherGraphe(&g);
 
 			/* Test voisins d'un sommet donné.
 			Tableau* voisinsSommet4;
@@ -48,6 +48,20 @@ int main(int argc, char **argv){
 			}
 
 			//Il faut également vérifier que le graphe ne contient pas de cycle.
+			int testCycle = contient_cycle(&g);
+			if(testCycle){
+				fprintf(stderr, "Le graphe contient au moins un cycle donc le graphe n'est pas un arbre.\n");
+				fprintf(stderr, "Le codage de Prüfer s'applique uniquement au arbre donc on ne peut pas chercher le codage de Prüfer associé au graphe donné.\n");
+				supprimerGraphe(&g);
+				return EXIT_FAILURE;
+			}else{
+				printf("Le graphe ne contient pas de cycle.\n");
+			}
+
+			resultatLecture = lireFichier(fichier, &g);
+			if(resultatLecture < 0){
+				return EXIT_FAILURE;
+			}
 
 			CodagePrufer* codage = generer_codage_prufer(&g);
 			if(codage == NULL){
