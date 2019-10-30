@@ -672,30 +672,39 @@ bool test_connexite(GRAPHE* g){
 }//Fin test_connexite()
 
 bool contient_cycle(GRAPHE *g){
-	if(g == NULL)
-		return true;
 
-	GRAPHE *tmp = g;
-	SOMMET *s = tmp->premierSommet;
+	unsigned int degreSommet = 0;
+	int retourSupprimerSommet = 0;
 
-	unsigned int degreS = 0;
+	SOMMET *pSommet = g->premierSommet;
+	ELTADJ *pAdj;
 
-	while(s != NULL){
+	//On calcule le degré de chaque sommet et on supprime ce sommet s'il est de degré 1
+	while(pSommet != NULL){
 
-		while(s->adj != NULL){
-			++degreS;
-			s->adj = s->adj->suivant;
+		pAdj = pSommet->adj;
+
+		while(pAdj != NULL){
+			++degreSommet;
+			pAdj = pAdj->suivant;
 		}
 
-		if(degreS == 1)
-			supprimerSommet(tmp, s->label);
+		if(degreSommet == 1){
+			
+			retourSupprimerSommet = supprimerSommet(g, pSommet->label);
+			if(retourSupprimerSommet < 0){
+				fprintf(stderr, "** ERREUR lors de la suppression d'un sommet de l'arbre.\n");
+				return true;
+			}
+			
+			pSommet = g->premierSommet;
+		}
 		
-		s = s->suivant;
-
-		degreS = 0;
+		pSommet = pSommet->suivant;
+		degreSommet = 0;
 	}
 
-	if(tmp->premierSommet->suivant == NULL)
+	if(g->premierSommet->suivant == NULL)
 		return false;
 
 	return true;

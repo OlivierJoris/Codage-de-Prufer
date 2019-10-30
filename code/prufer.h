@@ -90,4 +90,18 @@ int lire_codage_prufer(CodagePrufer *codage, char *nomFichier);
  * ------------------------------------------------------------------------- */
 CodagePrufer* generer_codage_prufer(GRAPHE* arbre);
 
+/* ------------------------------------------------------------------------- *
+ * Génére le graphe associé au codage de Prüfer donné.
+ *
+ * PARAMETERS
+ * codage, un pointeur vers le codage de Prüfer à décoder.
+ *
+ * RETOUR
+ * 0, aucune erreur.
+ * -1, pointeur vers le codage vaut NULL.
+ * -2, pointeur vers le tableau des degrés vaut NULL.
+ *
+ * ------------------------------------------------------------------------- */
+int decoder_codage_prufer(GRAPHE *g, CodagePrufer *codage);
+
 #endif

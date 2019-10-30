@@ -42,20 +42,21 @@ int main(int argc, char **argv){
 				printf("Le graphe est connexe.\n");
 			}else{
 				fprintf(stderr, "Le graphe n'est pas connexe donc le graphe n'est pas un arbre.\n");
-				fprintf(stderr, "Le codage de Prüfer s'applique uniquement au arbre donc on ne peut pas chercher le codage de Prüfer associé au graphe donné.\n");
+				fprintf(stderr, "Le codage de Prüfer s'applique uniquement aux arbres donc on ne peut pas chercher le codage de Prüfer associé au graphe donné.\n");
 				supprimerGraphe(&g);
 				return EXIT_FAILURE;
 			}
 
 			//Il faut également vérifier que le graphe ne contient pas de cycle.
-			int testCycle = contient_cycle(&g);
+			bool testCycle = contient_cycle(&g);
 			if(testCycle){
 				fprintf(stderr, "Le graphe contient au moins un cycle donc le graphe n'est pas un arbre.\n");
-				fprintf(stderr, "Le codage de Prüfer s'applique uniquement au arbre donc on ne peut pas chercher le codage de Prüfer associé au graphe donné.\n");
+				fprintf(stderr, "Le codage de Prüfer s'applique uniquement aux arbres donc on ne peut pas chercher le codage de Prüfer associé au graphe donné.\n");
 				supprimerGraphe(&g);
 				return EXIT_FAILURE;
 			}else{
 				printf("Le graphe ne contient pas de cycle.\n");
+				supprimerGraphe(&g);
 			}
 
 			resultatLecture = lireFichier(fichier, &g);
@@ -98,10 +99,32 @@ int main(int argc, char **argv){
 				return EXIT_FAILURE;
 			}
 
+			GRAPHE g;
+
+			initialiserGraphe(&g);
+
+			resultatLecture = decoder_codage_prufer(&g, nvCodage);
+
+			if(resultatLecture < 0){
+				fprintf(stderr, "** ERREUR : Erreur lors du décodage.\n");
+				supprimerGraphe(&g);
+				return EXIT_FAILURE;
+			}
+
+			printf("Le graphe associé au codage de Prüfer: \n");
+
 			afficher_codage_prufer(nvCodage);
 
+			printf("est tel que:\n");
+
+			afficherGraphe(&g);
+
 			detruire_codage_prufer(nvCodage);
+
+			supprimerGraphe(&g);
+
 			return EXIT_SUCCESS;
+			break;
 		}
 		case erreur:
 			return EXIT_FAILURE;

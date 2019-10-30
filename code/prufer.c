@@ -153,3 +153,73 @@ CodagePrufer* generer_codage_prufer(GRAPHE* arbre){
 
 	return nvCodage;
 }//Fin generer_codage_prufer()
+
+int decoder_codage_prufer(GRAPHE *arbre, CodagePrufer *codage){
+	if(codage == NULL){
+		fprintf(stderr, "** ERREUR : pointeur vers le codage vaut NULL.\n");
+		return -1;
+	}
+
+	int nbSommetsG = codage->taille + 2;
+
+	int *degres = malloc(sizeof(int) * nbSommetsG);
+	if(degres == NULL)
+		return -2;
+
+	for(int i = 0; i < nbSommetsG; ++i){
+		ajouterSommet(arbre, 0);
+		degres[i] = 1;
+	}
+
+	//On calcule les degrés des sommets
+	for(size_t i = 0; i < codage->taille; ++i){
+		for(int j = 0; j < nbSommetsG; ++j){
+
+			if(codage->suitePrufer[i] == j + 1)
+				++degres[j];
+		}
+	}
+
+	//On construit le graphe sur base du codage
+	for(size_t i = 0; i < codage->taille; ++i){
+		for(int j = 0; j < nbSommetsG - 2; ++j){
+
+			if(degres[j] == 1){
+				ajouterArc(arbre, j + 1, codage->suitePrufer[j], 0);
+				ajouterArc(arbre, codage->suitePrufer[j], j + 1, 0);
+
+				--degres[j];
+				--degres[codage->suitePrufer[j] - 1];
+			}
+		}
+	}
+
+	//On rattache les deux derniers sommets de degrés 1 
+	int premierSommet = 0, deuxiemeSommet = 0;
+
+	int i, j;
+
+	for(i = 0; i < nbSommetsG; ++i){
+		if(degres[i] == 1){
+			premierSommet = i + 1;
+			--degres[i];
+			break;
+		}
+	}
+
+	for(j = i; j < nbSommetsG; ++j){
+		if(degres[j] == 1){
+			deuxiemeSommet = j + 1;
+			--degres[j];
+			break;
+		}
+	}
+
+	ajouterArc(arbre, premierSommet, deuxiemeSommet, 0);
+	ajouterArc(arbre, deuxiemeSommet, premierSommet, 0);
+
+	if(degres != NULL)
+		free(degres);
+
+	return 0;
+}
