@@ -446,7 +446,87 @@ int sauvegarder_graphe(GRAPHE *g){
 	return 0;
 }//Fin sauvegarder_graphe()
 
-Tableau* obtenir_voisin_sommet(GRAPHE* g, int labelSommet){
+SOMMET* obtenir_sommet(GRAPHE* g, int labelSommet){
+	if(g == NULL)
+		return NULL;
+
+	if(g->premierSommet == NULL)
+		return NULL;
+
+	if(labelSommet < 1){
+		fprintf(stderr, "** ERREUR : vous essayez de récupérer un sommet dont le label < 1.\n");
+		return NULL;
+	}
+
+	if(labelSommet > g->nbS){
+		fprintf(stderr, "** ERREUR : vous essayer d'obtenir le sommet %d mais le graphe ne contient que %d sommets.\n", labelSommet, g->nbS);
+		return NULL;
+	}
+
+	//1 car on sait qu'on a au moins 1 sommet sinon g->premierSommet vaudrait NULL.
+	int labelSommetCourant = 1;
+	SOMMET* tmpSommet = g->premierSommet;
+
+	//On parcourt la liste jusqu'à arriver au sommet avec le label labelSommet.
+	while(labelSommetCourant < labelSommet){
+		if(tmpSommet->suivant == NULL){
+			fprintf(stderr, "** ERREUR dans le parcours de la liste.\n");
+			return NULL;
+		}
+		tmpSommet = tmpSommet->suivant;
+		labelSommetCourant++;
+	}//Fin while()
+
+	//Le sommet n'existe pas.
+	if(tmpSommet->label != labelSommet){
+		fprintf(stderr, "** ERREUR : Le sommet demandé est le sommet %d est on est au sommet %d\n", labelSommet, tmpSommet->label);
+		return NULL;
+	}
+
+	return tmpSommet;
+}//Fin obtenir_sommet()
+
+ELTADJ* obtenir_voisin(GRAPHE* g, int labelSommet){
+	if(g == NULL)
+		return NULL;
+
+	if(g->premierSommet == NULL)
+		return NULL;
+
+	if(labelSommet < 1){
+		fprintf(stderr, "** ERREUR : vous essayez de récupérer le voisin d'un sommet dont le label < 1.\n");
+		return NULL;
+	}
+
+	if(labelSommet > g->nbS){
+		fprintf(stderr, "** ERREUR : vous essayer d'obtenir le voisin du sommet %d mais le graphe ne contient que %d sommets.\n", labelSommet, g->nbS);
+		return NULL;
+	}
+
+	SOMMET* tmpSommet = g->premierSommet;
+	//1 car on sait qu'on a au moins 1 sommet sinon g->premierSommet vaudrait NULL.
+	int labelSommetCourant = 1;
+
+	//On parcourt la liste jusqu'à arriver au sommet avec le label labelSommet.
+	while(labelSommetCourant < labelSommet){
+		if(tmpSommet->suivant == NULL){
+			fprintf(stderr, "** ERREUR dans le parcours de la liste.\n");
+			return NULL;
+		}
+		tmpSommet = tmpSommet->suivant;
+		labelSommetCourant++;
+	}//Fin while()
+
+	//Le sommet n'existe pas.
+	if(tmpSommet->label != labelSommet){
+		fprintf(stderr, "** ERREUR : Le sommet demandé est le sommet %d est on est au sommet %d\n", labelSommet, tmpSommet->label);
+		return NULL;
+	}
+
+	return tmpSommet->adj;
+}//Fin obtenir_voisin()
+
+Tableau* obtenir_voisins_sommet(GRAPHE* g, int labelSommet){
 	if(g == NULL)
 		return NULL;
 
@@ -477,6 +557,11 @@ Tableau* obtenir_voisin_sommet(GRAPHE* g, int labelSommet){
 		labelSommetCourant++;
 	}//Fin while()
 
+	//Le sommet n'existe pas.
+	if(tmpSommet->label > labelSommet)
+		return NULL;
+
+
 	//La liste des sommets adjacents au sommet considéré (labelSommet) est ses voisins.
 	ELTADJ* listeSommetsAdjacents = tmpSommet->adj;
 	Tableau* voisins = creer_tableau();
@@ -491,7 +576,7 @@ Tableau* obtenir_voisin_sommet(GRAPHE* g, int labelSommet){
 	}//Fin while()
 
 	return voisins;
-}//Fin obtenir_voisin_sommet()
+}//Fin obtenir_voisins_sommet()
 
 Tableau* obtenir_sommet_graphe(GRAPHE* g){
 	if(g == NULL){
@@ -592,7 +677,7 @@ bool test_connexite(GRAPHE* g){
 
 		for(size_t i = 0; i < new->dernierElementUtilise; i++){
 
-			voisinsSommet = obtenir_voisin_sommet(g, new->donnees[i]);
+			voisinsSommet = obtenir_voisins_sommet(g, new->donnees[i]);
 			if(voisinsSommet == NULL){
 				fprintf(stderr, "** ERREUR à la récupération des voisins.\n");
 				detruire_tableau(composante);
@@ -690,16 +775,16 @@ bool contient_cycle(GRAPHE *g){
 		}
 
 		if(degreSommet == 1){
-			
+
 			retourSupprimerSommet = supprimerSommet(g, pSommet->label);
 			if(retourSupprimerSommet < 0){
 				fprintf(stderr, "** ERREUR lors de la suppression d'un sommet de l'arbre.\n");
 				return true;
 			}
-			
+
 			pSommet = g->premierSommet;
 		}
-		
+
 		pSommet = pSommet->suivant;
 		degreSommet = 0;
 	}

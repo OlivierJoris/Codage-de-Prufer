@@ -61,6 +61,34 @@ int lireFichier(char *nomf, GRAPHE *);
 int sauvegarder_graphe(GRAPHE *g);
 
 /* ------------------------------------------------------------------------- *
+ ** Fonction pour obtenir le sommet d'un graphe.
+ *
+ ** PARAMETRES
+ * g, le graphe.
+ * labelSommet, le label du sommet qu'on veut obtenir.
+ *
+ ** RETOUR
+ * Pointeur vers le sommet de label labelSommet.
+ * NULL si le sommmet n'existe pas ou erreur.
+ *
+ * ------------------------------------------------------------------------- */
+SOMMET* obtenir_sommet(GRAPHE* g, int labelSommet);
+
+/* ------------------------------------------------------------------------- *
+ ** Fonction pour obtenir la liste qui contient les voisins d'un sommet.
+ *
+ ** PARAMETRES
+ * g, le graphe.
+ * labelSommet, le label du sommet dont on veut obtenir la liste des sommets adjacents.
+ *
+ ** RETOUR
+ * Pointeur vers le sommet de label labelSommet.
+ * NULL si le sommmet n'existe pas ou erreur.
+ *
+ * ------------------------------------------------------------------------- */
+ELTADJ* obtenir_voisin(GRAPHE* g, int labelSommet);
+
+/* ------------------------------------------------------------------------- *
  ** Fonction pour obtenir les voisins d'un sommet.
  *
  ** PARAMETRES
@@ -71,7 +99,7 @@ int sauvegarder_graphe(GRAPHE *g);
  * Un tableau contenant les voisins du sommet 'labelSommet'.
  * NULL sinon.
  * ------------------------------------------------------------------------- */
-Tableau* obtenir_voisin_sommet(GRAPHE* g, int labelSommet);
+Tableau* obtenir_voisins_sommet(GRAPHE* g, int labelSommet);
 
 /* ------------------------------------------------------------------------- *
  ** Fonction pour obtenir les sommets d'un graphe.
@@ -98,7 +126,7 @@ Tableau* obtenir_sommet_graphe(GRAPHE* g);
 bool test_connexite(GRAPHE* g);
 
 /* ------------------------------------------------------------------------- *
- ** Fonction pour déterminer si un graphe contient un cycle 
+ ** Fonction pour déterminer si un graphe contient un cycle
  * (cette fonction modifie le graphe de départ).
  *
  ** PARAMETRES

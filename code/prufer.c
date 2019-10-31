@@ -19,6 +19,9 @@ CodagePrufer *creer_codage_prufer(unsigned int taille){
 		return NULL;
 	}
 
+	for(size_t i = 0; i < taille; i++)
+		nvCodage->suitePrufer[i] = 0;
+
 	return nvCodage;
 }//Fin creer_codage_prufer()
 
@@ -129,26 +132,67 @@ CodagePrufer* generer_codage_prufer(GRAPHE* arbre){
 		return NULL;
 	}
 
-	unsigned int indiceCodage = 0;
-	int resultatSupprimerSommet;
-	SOMMET* plusPetitLabel;
+	int indiceCodage = 0;
+	SOMMET* tmpSommet;
+	Tableau* voisinsSommet;
+	int indiceSommetCourant;
 
-	while(arbre->nbS > 2){
+	while(indiceCodage < arbre->nbS - 2){
 
-		//On récupére le sommet qui a le plus petit label.
-		plusPetitLabel = arbre->premierSommet;
-		//On le met dans la suite de Prüfer le seul sommet qui lui adjacent.
-		nvCodage->suitePrufer[indiceCodage] = plusPetitLabel->adj->dest;
+		indiceSommetCourant = 1;
 
-		indiceCodage++;
+		//On doit trouver la feuille de plus petit indice donc un sommet de degré 1.
+		while(indiceSommetCourant <= arbre->nbS){
 
-		//On supprime le sommet de plus petit label;
-		resultatSupprimerSommet = supprimerSommet(arbre, plusPetitLabel->label);
-		if(resultatSupprimerSommet < 0){
-			fprintf(stderr, "** ERREUR lors de la suppression d'un sommet de l'arbre.\n");
+			//On récupére les voisins du sommet de label indiceSommetCourant.
+			//S'il a plus de 1 voisin alors ce n'est pas une feuille.
+
+			voisinsSommet = obtenir_voisins_sommet(arbre, indiceSommetCourant);
+			if(voisinsSommet != NULL){
+				//S'il a bien un unique voisin.
+				if(voisinsSommet->dernierElementUtilise == 1){
+					//On vérifie si on n'a pas déjà considérer la feuille.
+					tmpSommet = obtenir_sommet(arbre, indiceSommetCourant);
+					if(tmpSommet != NULL){
+						if(tmpSommet->info != 1){
+							break;
+						}
+					}
+				}//Fin if()
+			}//Fin if()
+
+			indiceSommetCourant++;
+
+			if(voisinsSommet != NULL)
+				free(voisinsSommet);
+		}//Fin while()
+
+		//On a trouvé un sommet de degré 1 (une feuille).
+		//On récupére son unique voisin.
+
+		ELTADJ* voisinFeuille = obtenir_voisin(arbre, indiceSommetCourant);
+		if(voisinFeuille == NULL){
+			fprintf(stderr, "** ERREUR : imossible de récupérer le voisin dans generer_codage_prufer.\n");
 			detruire_codage_prufer(nvCodage);
 			return NULL;
 		}
+
+		//On ajoute le label de son unique voisin à la suite de Prüfer.
+		nvCodage->suitePrufer[indiceCodage] = voisinFeuille->dest;
+
+		indiceCodage++;
+
+		//On marque la feuille de plus petit label comme déjà considérée.
+		tmpSommet = obtenir_sommet(arbre, indiceSommetCourant);
+		if(tmpSommet != NULL){
+			tmpSommet->info = 1;
+		}
+
+		//On supprime les arcs entre la feuille et son adjacent.
+		supprimerArc(arbre, indiceSommetCourant, voisinFeuille->dest);
+		supprimerArc(arbre, voisinFeuille->dest, indiceSommetCourant);
+
+		afficher_codage_prufer(nvCodage);
 	}//Fin while()
 
 	return nvCodage;
@@ -194,7 +238,7 @@ int decoder_codage_prufer(GRAPHE *arbre, CodagePrufer *codage){
 		}
 	}
 
-	//On rattache les deux derniers sommets de degrés 1 
+	//On rattache les deux derniers sommets de degrés 1
 	int premierSommet = 0, deuxiemeSommet = 0;
 
 	int i, j;
@@ -222,4 +266,4 @@ int decoder_codage_prufer(GRAPHE *arbre, CodagePrufer *codage){
 		free(degres);
 
 	return 0;
-}
+}//Fin decoder_codage_prufer()
