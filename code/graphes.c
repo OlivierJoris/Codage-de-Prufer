@@ -443,6 +443,8 @@ int sauvegarder_graphe(GRAPHE *g){
 	if(fichierGraphe != NULL)
 		fclose(fichierGraphe);
 
+	printf("Le graphe a été sauvegardé dans le fichier 'output_graph.txt'.\n");
+
 	return 0;
 }//Fin sauvegarder_graphe()
 

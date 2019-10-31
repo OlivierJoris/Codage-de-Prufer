@@ -78,6 +78,7 @@ int lire_codage_prufer(CodagePrufer *codage, char *nomFichier);
 
 /* ------------------------------------------------------------------------- *
  * Génére le codage de Prüfer pour un arbre donnée.
+ * ATTENTION : cette fonction modifie le graphe de départ.
  *
  * PARAMETERS
  * arbre, l'arbre dont on veut obtenir le codage de Prüfer.

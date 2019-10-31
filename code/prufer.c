@@ -158,7 +158,7 @@ CodagePrufer* generer_codage_prufer(GRAPHE* arbre){
 							break;
 						}
 					}
-				}//Fin if()
+				}
 			}//Fin if()
 
 			indiceSommetCourant++;
@@ -189,10 +189,8 @@ CodagePrufer* generer_codage_prufer(GRAPHE* arbre){
 		}
 
 		//On supprime les arcs entre la feuille et son adjacent.
-		supprimerArc(arbre, indiceSommetCourant, voisinFeuille->dest);
 		supprimerArc(arbre, voisinFeuille->dest, indiceSommetCourant);
-
-		afficher_codage_prufer(nvCodage);
+		supprimerArc(arbre, indiceSommetCourant, voisinFeuille->dest);
 	}//Fin while()
 
 	return nvCodage;
@@ -229,8 +227,8 @@ int decoder_codage_prufer(GRAPHE *arbre, CodagePrufer *codage){
 		for(int j = 0; j < nbSommetsG - 2; ++j){
 
 			if(degres[j] == 1){
-				ajouterArc(arbre, j + 1, codage->suitePrufer[j], 0);
-				ajouterArc(arbre, codage->suitePrufer[j], j + 1, 0);
+				ajouterArc(arbre, j + 1, codage->suitePrufer[j], 1);
+				ajouterArc(arbre, codage->suitePrufer[j], j + 1, 1);
 
 				--degres[j];
 				--degres[codage->suitePrufer[j] - 1];
@@ -259,8 +257,8 @@ int decoder_codage_prufer(GRAPHE *arbre, CodagePrufer *codage){
 		}
 	}
 
-	ajouterArc(arbre, premierSommet, deuxiemeSommet, 0);
-	ajouterArc(arbre, deuxiemeSommet, premierSommet, 0);
+	ajouterArc(arbre, premierSommet, deuxiemeSommet, 1);
+	ajouterArc(arbre, deuxiemeSommet, premierSommet, 1);
 
 	if(degres != NULL)
 		free(degres);

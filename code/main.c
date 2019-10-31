@@ -61,6 +61,7 @@ int main(int argc, char **argv){
 
 			resultatLecture = lireFichier(fichier, &g);
 			if(resultatLecture < 0){
+				fprintf(stderr, "** ERREUR lors de la lecture du graphe.\n");
 				return EXIT_FAILURE;
 			}
 
@@ -69,6 +70,13 @@ int main(int argc, char **argv){
 				fprintf(stderr, "** ERREUR à la génération du codage de Prüfer.\n");
 				supprimerGraphe(&g);
 				return EXIT_FAILURE;
+			}else{
+				supprimerGraphe(&g);
+				resultatLecture = lireFichier(fichier, &g);
+				if(resultatLecture < 0){
+					fprintf(stderr, "** ERREUR lors de la lecture du graphe.\n");
+					return EXIT_FAILURE;
+				}
 			}
 
 			afficher_codage_prufer(codage);
@@ -118,6 +126,13 @@ int main(int argc, char **argv){
 			printf("est tel que:\n");
 
 			afficherGraphe(&g);
+
+			int resultatSauvegarde = sauvegarder_graphe(&g);
+			if(resultatSauvegarde < 0){
+				fprintf(stderr, "** ERREUR lors de la sauvegarde du graphe.\n");
+				supprimerGraphe(&g);
+				return EXIT_FAILURE;
+			}
 
 			detruire_codage_prufer(nvCodage);
 
