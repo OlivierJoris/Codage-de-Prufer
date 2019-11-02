@@ -155,16 +155,16 @@ CodagePrufer* generer_codage_prufer(GRAPHE* arbre){
 					tmpSommet = obtenir_sommet(arbre, indiceSommetCourant);
 					if(tmpSommet != NULL){
 						if(tmpSommet->info != 1){
+							if(voisinsSommet != NULL)
+								detruire_tableau(voisinsSommet);
 							break;
 						}
 					}
 				}
+				detruire_tableau(voisinsSommet);
 			}//Fin if()
 
 			indiceSommetCourant++;
-
-			if(voisinsSommet != NULL)
-				free(voisinsSommet);
 		}//Fin while()
 
 		//On a trouvé un sommet de degré 1 (une feuille).

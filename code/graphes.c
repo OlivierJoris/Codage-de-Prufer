@@ -662,12 +662,12 @@ bool test_connexite(GRAPHE* g){
 
 	Tableau* voisins = NULL;
 	Tableau* voisinsSommet = NULL;
+	Tableau* tmp = NULL;
+	Tableau* tmpRetourUnion = NULL;
 
 	//Boucle principale
 
 	while(new->dernierElementUtilise != 0){
-
-		//Tableau* tmp;
 
 		voisins = creer_tableau();
 		if(voisins == NULL){
@@ -688,23 +688,21 @@ bool test_connexite(GRAPHE* g){
 				return false;
 			}//Fin if()
 
-			//tmp = voisins;
+			tmp = voisins;
 			//fprintf(stderr, "Taille de voisins : %u || taille de voisinsSommet = %u.\n", voisins->dernierElementUtilise, voisinsSommet->dernierElementUtilise);
 			voisins = union_tab(voisins, voisinsSommet);
 
-			//if(tmp != NULL)
-			//	detruire_tableau(tmp);
+			if(tmp != NULL)
+				detruire_tableau(tmp);
 
 			if(voisins == NULL){
 				fprintf(stderr, "** ERREUR union voisins et voisinsSommet\n");
 				detruire_tableau(composante);
 				detruire_tableau(new);
-				detruire_tableau(voisins);
+				//detruire_tableau(voisins);
 				detruire_tableau(voisinsSommet);
 				return false;
 			}
-
-			//detruire_tableau(voisinsSommet);
 		}//Fin for()
 
 		int resultatDiff = difference_tableaux(voisins, composante);
@@ -720,11 +718,6 @@ bool test_connexite(GRAPHE* g){
 		//Tableau* tmpNew = new;
 
 		new = voisins;
-
-		//detruire_tableau(tmpNew);
-
-		Tableau* tmpRetourUnion;
-
 		tmpRetourUnion = union_tab(composante, new);
 		if(tmpRetourUnion == NULL){
 			fprintf(stderr, "** ERREUR lors de l'union de tableaux.\n");
