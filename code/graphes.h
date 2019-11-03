@@ -138,4 +138,16 @@ bool test_connexite(GRAPHE* g);
  * ------------------------------------------------------------------------- */
 bool contient_cycle(GRAPHE *g);
 
+/* ------------------------------------------------------------------------- *
+ ** Fonction pour déterminer si un graphe est non oriente
+ *
+ ** PARAMETRES
+ * g, un pointeur vers le graphe étudié.
+ *
+ ** RETOUR
+ * true si le graphe est non oriente.
+ * false si le graphe est n'est pas non oriente ou erreur.
+ * ------------------------------------------------------------------------- */
+bool est_non_oriente(GRAPHE *g);
+
 #endif

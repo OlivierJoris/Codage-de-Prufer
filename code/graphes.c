@@ -752,9 +752,16 @@ bool test_connexite(GRAPHE* g){
 }//Fin test_connexite()
 
 bool contient_cycle(GRAPHE *g){
+	if(g == NULL){
+		fprintf(stderr, "** ERREUR le pointeur vers le graphe vaut NULL dans contient_cycle.\n");
+		return true;
+	}
 
 	unsigned int degreSommet = 0;
 	int retourSupprimerSommet = 0;
+
+	if(g->premierSommet == NULL)
+		return false;
 
 	SOMMET *pSommet = g->premierSommet;
 	ELTADJ *pAdj;
@@ -776,7 +783,7 @@ bool contient_cycle(GRAPHE *g){
 				fprintf(stderr, "** ERREUR lors de la suppression d'un sommet de l'arbre.\n");
 				return true;
 			}
-
+			//On recommence au premier sommet
 			pSommet = g->premierSommet;
 		}
 
