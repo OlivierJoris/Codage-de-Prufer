@@ -223,15 +223,16 @@ int decoder_codage_prufer(GRAPHE *arbre, CodagePrufer *codage){
 	}
 
 	//On construit le graphe sur base du codage
-	for(size_t i = 0; i < codage->taille; ++i){
-		for(int j = 0; j < nbSommetsG - 2; ++j){
+	for(int j = 0; j < nbSommetsG - 2; ++j){
+		for(int i = 0; i < nbSommetsG; ++i){
 
-			if(degres[j] == 1){
-				ajouterArc(arbre, j + 1, codage->suitePrufer[j], 1);
-				ajouterArc(arbre, codage->suitePrufer[j], j + 1, 1);
+			if(degres[i] == 1){
+				ajouterArc(arbre, i + 1, codage->suitePrufer[j], 1);
+				ajouterArc(arbre, codage->suitePrufer[j], i + 1, 1);
 
-				--degres[j];
+				--degres[i];
 				--degres[codage->suitePrufer[j] - 1];
+				break;
 			}
 		}
 	}
