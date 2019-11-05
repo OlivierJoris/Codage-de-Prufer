@@ -1,3 +1,7 @@
+/* ------------------------------------------------------------------------- *
+ * Programme
+ * ------------------------------------------------------------------------- */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -21,21 +25,6 @@ int main(int argc, char **argv){
 			if(resultatLecture < 0){
 				return EXIT_FAILURE;
 			}
-			// afficherGraphe(&g);
-
-			/* Test voisins d'un sommet donné.
-			Tableau* voisinsSommet4;
-			voisinsSommet4 = obtenir_voisin_sommet(&g, 4);
-			if(voisinsSommet4 == NULL){
-				fprintf(stderr, "** ERREUR lors de la sauvegarde des voisins d'un sommet.\n");
-				return EXIT_FAILURE;
-			}
-
-			afficher_tableau(voisinsSommet4);
-			//sauvegarder_graphe(&g);
-
-			detruire_tableau(voisinsSommet4);
-			*/
 
 			bool testConnexite = test_connexite(&g);
 			if(testConnexite){
@@ -198,6 +187,19 @@ int main(int argc, char **argv){
 		return EXIT_FAILURE;
 	}
 	*/
+	/*
+	//Test copie tableau
+	printf("\nmon2Tableau avant copie.\n");
+	afficher_tableau(mon2Tableau);
+	int resultatCopie = copier_tableau(monTableau, mon2Tableau);
+	if(resultatCopie < 0){
+		fprintf(stderr, "** ERREUR lors de la copie.\n");
+		return EXIT_FAILURE;
+	}else{
+		printf("mon2Tableau après copie.\n");
+		afficher_tableau(mon2Tableau);
+	}
+	*/
 	/* Test union tab
 	Tableau* tabUnion = union_tab(monTableau, mon2Tableau);
 	if(tabUnion != NULL){
@@ -220,7 +222,7 @@ int main(int argc, char **argv){
 	*/
 
 	/*
-	//Test difference ensemble.
+	//Test difference tableaux.
 	int resultatDifference = difference_tableaux(monTableau, mon2Tableau);
 	printf("Différence monTableau\\mon2Tableau.\n");
 	afficher_tableau(monTableau);
@@ -228,15 +230,15 @@ int main(int argc, char **argv){
 		printf("Différence OK.\n");
 	else
 		printf("Différence ratée.\n");
-
+	*/
+	/*
 	if(monTableau != NULL)
 		detruire_tableau(monTableau);
 
 	if(mon2Tableau != NULL)
 		detruire_tableau(mon2Tableau);
+
 	*/
-
-
 	/*
 	if(tabUnion != NULL)
 		detruire_tableau(tabUnion);

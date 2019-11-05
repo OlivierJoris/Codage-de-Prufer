@@ -1,3 +1,8 @@
+/* ------------------------------------------------------------------------- *
+ * Fichier qui contient les fonctions pour manipuler un codage de Prüfer et
+ * les fonctions de codage et décodage.
+ * ------------------------------------------------------------------------- */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -150,7 +155,7 @@ CodagePrufer* generer_codage_prufer(GRAPHE* arbre){
 			voisinsSommet = obtenir_voisins_sommet(arbre, indiceSommetCourant);
 			if(voisinsSommet != NULL){
 				//S'il a bien un unique voisin.
-				if(voisinsSommet->dernierElementUtilise == 1){
+				if(voisinsSommet->nbreElements == 1){
 					//On vérifie si on n'a pas déjà considérer la feuille.
 					tmpSommet = obtenir_sommet(arbre, indiceSommetCourant);
 					if(tmpSommet != NULL){

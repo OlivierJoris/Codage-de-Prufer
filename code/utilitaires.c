@@ -1,3 +1,8 @@
+/* ------------------------------------------------------------------------- *
+ * Fichier qui contient la fonction pour gérer les arguments du programme
+ * et générer un nombre aléatoire entre 2 bornes.
+ * ------------------------------------------------------------------------- */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

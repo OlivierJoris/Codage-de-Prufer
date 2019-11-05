@@ -1,9 +1,18 @@
+/* ------------------------------------------------------------------------- *
+ * Fichier qui contient une énumération représentant les différents modes
+ * d'utilisation du programme.
+ * Ainsi que les prototypes de la fonction pour gérer les arguments du
+ * programme et de la fonction pour générer un nombre aléatoire entre
+ * 2 bornes.
+ * ------------------------------------------------------------------------- */
+
 #ifndef __UTILITAIRES__
 #define __UTILITAIRES__
 
 #include <unistd.h>
 #include <getopt.h>
 
+//Résultats possibles après l'analyse des arguments fournis au programme.
 typedef enum {erreur = -1, encodage, decodage}ModeUtilisation;
 
 /* ------------------------------------------------------------------------- *

@@ -1,3 +1,11 @@
+/* ------------------------------------------------------------------------- *
+ * Header qui contient l'implémentation du type CodagePrufer et les
+ * prototypes :
+ * 	- des fonctions pour manipuler un codage de Prüfer;
+ *	- de la fonction de codage;
+ * 	- de la fonction de décodage.
+ * ------------------------------------------------------------------------- */
+
 #ifndef __PRUFER__
 #define  __PRUFER__
 

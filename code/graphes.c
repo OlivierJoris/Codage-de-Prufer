@@ -1,3 +1,8 @@
+/* ------------------------------------------------------------------------- *
+ * Fichier qui contient les fonctions pour manipuler un graphe et obtenir
+ * des informations sur le graphe.
+ * ------------------------------------------------------------------------- */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -662,12 +667,13 @@ bool test_connexite(GRAPHE* g){
 
 	Tableau* voisins = NULL;
 	Tableau* voisinsSommet = NULL;
-	Tableau* tmp = NULL;
 	Tableau* tmpRetourUnion = NULL;
+
+	int resultatCopie;
 
 	//Boucle principale
 
-	while(new->dernierElementUtilise != 0){
+	while(new->nbreElements != 0){
 
 		voisins = creer_tableau();
 		if(voisins == NULL){
@@ -677,7 +683,7 @@ bool test_connexite(GRAPHE* g){
 			return false;
 		}
 
-		for(size_t i = 0; i < new->dernierElementUtilise; i++){
+		for(size_t i = 0; i < new->nbreElements; i++){
 
 			voisinsSommet = obtenir_voisins_sommet(g, new->donnees[i]);
 			if(voisinsSommet == NULL){
@@ -688,20 +694,36 @@ bool test_connexite(GRAPHE* g){
 				return false;
 			}//Fin if()
 
-			tmp = voisins;
-			//fprintf(stderr, "Taille de voisins : %u || taille de voisinsSommet = %u.\n", voisins->dernierElementUtilise, voisinsSommet->dernierElementUtilise);
-			voisins = union_tab(voisins, voisinsSommet);
+			//fprintf(stderr, "Taille de voisins : %u || taille de voisinsSommet = %u.\n", voisins->nbreElements, voisinsSommet->nbreElements);
+			tmpRetourUnion = union_tab(voisins, voisinsSommet);
 
-			if(tmp != NULL)
-				detruire_tableau(tmp);
-
-			if(voisins == NULL){
+			if(tmpRetourUnion == NULL){
 				fprintf(stderr, "** ERREUR union voisins et voisinsSommet\n");
 				detruire_tableau(composante);
 				detruire_tableau(new);
-				//detruire_tableau(voisins);
+				detruire_tableau(voisins);
 				detruire_tableau(voisinsSommet);
 				return false;
+			}else{
+				resultatCopie = copier_tableau(tmpRetourUnion, voisins);
+				if(resultatCopie < 0){
+					fprintf(stderr, "** ERREUR lors de la copie de tableau dans test_connexite.\n");
+					detruire_tableau(composante);
+					detruire_tableau(new);
+					detruire_tableau(voisins);
+					detruire_tableau(voisinsSommet);
+					return false;
+				}
+
+				if(tmpRetourUnion != NULL){
+					detruire_tableau(tmpRetourUnion);
+					tmpRetourUnion = NULL;
+				}
+			}
+
+			if(voisinsSommet != NULL){
+				detruire_tableau(voisinsSommet);
+				voisinsSommet = NULL;
 			}
 		}//Fin for()
 
@@ -715,9 +737,16 @@ bool test_connexite(GRAPHE* g){
 			return false;
 		}
 
-		//Tableau* tmpNew = new;
+		resultatCopie = copier_tableau(voisins, new);
+		if(resultatCopie < 0){
+			fprintf(stderr, "** ERREUR lors de la copie de tableau dans test_connexite.\n");
+			detruire_tableau(composante);
+			detruire_tableau(new);
+			detruire_tableau(voisins);
+			detruire_tableau(voisinsSommet);
+			return false;
+		}
 
-		new = voisins;
 		tmpRetourUnion = union_tab(composante, new);
 		if(tmpRetourUnion == NULL){
 			fprintf(stderr, "** ERREUR lors de l'union de tableaux.\n");
@@ -726,12 +755,22 @@ bool test_connexite(GRAPHE* g){
 			detruire_tableau(voisins);
 			detruire_tableau(voisinsSommet);
 			return false;
+		}else{
+			resultatCopie = copier_tableau(tmpRetourUnion, composante);
+			if(resultatCopie < 0){
+				fprintf(stderr, "** ERREUR lors de la copie de tableau dans copier_tableau.\n");
+				return false;
+			}
+
+			if(tmpRetourUnion != NULL){
+				detruire_tableau(tmpRetourUnion);
+				tmpRetourUnion = NULL;
+			}
 		}
-
-		//detruire_tableau(composante);
-
-		composante = tmpRetourUnion;
-
+		if(voisins != NULL){
+			detruire_tableau(voisins);
+			voisins = NULL;
+		}
 	}//Fin while()
 
 	Tableau* sommetsGraphe = obtenir_sommet_graphe(g);
@@ -744,9 +783,14 @@ bool test_connexite(GRAPHE* g){
 
 	bool egaliteTab = egalite_tableaux(composante, sommetsGraphe);
 
-	detruire_tableau(composante);
-	detruire_tableau(new);
-	detruire_tableau(sommetsGraphe);
+	if(composante != NULL)
+		detruire_tableau(composante);
+	if(new != NULL)
+		detruire_tableau(new);
+	if(sommetsGraphe != NULL)
+		detruire_tableau(sommetsGraphe);
+	if(voisins != NULL)
+		detruire_tableau(voisins);
 
 	return egaliteTab;
 }//Fin test_connexite()

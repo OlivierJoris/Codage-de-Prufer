@@ -1,3 +1,9 @@
+/* ------------------------------------------------------------------------- *
+ * Header qui contient les différentes structures nécessaires à la
+ * représentation d'un graphe et les prototypes des fonctions pour manipuler
+ * un graphe et obtenir certaines informations sur le graphe.
+ * ------------------------------------------------------------------------- */
+
 #ifndef GRAPHES_H
 #define GRAPHES_H
 

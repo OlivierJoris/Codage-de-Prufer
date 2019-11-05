@@ -1,3 +1,8 @@
+/* ------------------------------------------------------------------------- *
+ * Fichier qui contient l'implémentation du type Tableau ainsi que les
+ * prototypes des fonctions nécessaires à sa manipulation.
+ * ------------------------------------------------------------------------- */
+
 #ifndef __TABLEAU__
 #define __TABLEAU__
 
@@ -10,10 +15,10 @@
 typedef struct Tableau_t{
 	int* donnees; //Le tableau de données.
 	unsigned int taille; //La taille en mémoire du tableau.
-	unsigned int dernierElementUtilise; //Nombre d'éléments présents dans le tableau.
+	unsigned int nbreElements; //Nombre d'éléments présents dans le tableau.
 }Tableau;
 
-/*******************************
+/* ------------------------------------------------------------------------- *
 ** Fonction pour créer un Tableau.
 *
 ** Paramètre :
@@ -22,10 +27,10 @@ typedef struct Tableau_t{
 ** Retour :
 * Un pointeur vers un Tableau. NULL sinon.
 *
-*********************************/
+* ------------------------------------------------------------------------- */
 Tableau* creer_tableau(void);
 
-/*******************************
+/* ------------------------------------------------------------------------- *
 ** Fonction pour afficher un Tableau.
 *
 ** Paramètre :
@@ -34,10 +39,10 @@ Tableau* creer_tableau(void);
 ** Retour :
 * /
 *
-*********************************/
+* ------------------------------------------------------------------------- */
 void afficher_tableau(Tableau* tab);
 
-/*******************************
+/* ------------------------------------------------------------------------- *
 ** Fonction pour modifier la taille d'un Tableau.
 *
 ** Paramètres :
@@ -52,10 +57,10 @@ void afficher_tableau(Tableau* tab);
 * -4, tentative de réallocation a une même taille. Refusé pour économiser le temps processeur.
 * -5, la réallocation (realloc) a échoué.
 *
-*********************************/
+* ------------------------------------------------------------------------- */
 int modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille);
 
-/*******************************
+/* ------------------------------------------------------------------------- *
 ** Fonction pour ajouter un élément au tableau.
 *
 ** Paramètres :
@@ -68,10 +73,10 @@ int modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille);
 * -2, pointeur vers les données dans la structure Tableau vaut NULL.
 * -3, réallocation a échouée.
 *
-*********************************/
+* ------------------------------------------------------------------------- */
 int ajouter_element_tab(Tableau* tab, int element);
 
-/*******************************
+/* ------------------------------------------------------------------------- *
 ** Fonction pour supprimer toutes les occurrences d'un élément dans un tab.
 *
 ** Paramètres :
@@ -84,10 +89,28 @@ int ajouter_element_tab(Tableau* tab, int element);
 * -2, pointeur vers les données dans la structure Tableau vaut NULL.
 * -3, erreur lors du décalage des données au sein du tableau.
 *
-*********************************/
+* ------------------------------------------------------------------------- */
 int supprimer_element_tab(Tableau* tab, int element);
 
-/*******************************
+/* ------------------------------------------------------------------------- *
+ ** Fonction pour copier un tableau dans un autre.
+ *
+ ** PARAMETRES
+ * source, le tableau source.
+ * destination, le tableau de destination.
+ *
+ ** RETOUR
+ * 0, la copie s'est réalisé sans problème.
+ * -1, pointeur source vaut NULL.
+ * -2, pointeur vers les données de source dans la structure Tableau vaut NULL.
+ * -3, pointeur destination vaut NULL.
+ * -4, pointeur vers les données de destination dans la structure Tableau vaut NULL.
+ * -5, erreur lors de l'ajout d'un élément à destination.
+ *
+ * ------------------------------------------------------------------------- */
+int copier_tableau(Tableau* source, Tableau* destination);
+
+/* ------------------------------------------------------------------------- *
 ** Fonction qui construit l'union de 2 tableaux.
 * ATTENTION : Si un tableau contient des élements en double alors erreur.
 *Il faut que chaque élément soit unique.
@@ -99,10 +122,10 @@ int supprimer_element_tab(Tableau* tab, int element);
 ** Retour :
 * Pointeur vers un Tableau qui contient l'union de tab1 et tab2. NULL en cas d'erreur.
 *
-*********************************/
+* ------------------------------------------------------------------------- */
 Tableau* union_tab(Tableau* tab1, Tableau* tab2);
 
-/*******************************
+/* ------------------------------------------------------------------------- *
 ** Fonction qui teste l'égalité de 2 tableaux.
 *
 ** Paramètres :
@@ -113,10 +136,10 @@ Tableau* union_tab(Tableau* tab1, Tableau* tab2);
 * true si les tableaux sont les mêmes.
 * false si les tableaux ne sont pas les mêmes ou erreur.
 *
-*********************************/
+* ------------------------------------------------------------------------- */
 bool egalite_tableaux(Tableau* tab1, Tableau* tab2);
 
-/*******************************
+/* ------------------------------------------------------------------------- *
 ** Fonction qui réalise la différence de 2 tableaux.
 * Les deux tableaux sont considérés commme des ensembles.
 * Donc, on effectue l'opération tab1\tab2.
@@ -134,10 +157,10 @@ bool egalite_tableaux(Tableau* tab1, Tableau* tab2);
 * -4, pointeur vers les données dans la structure Tableau de tab2 vaut NULL.
 * -5, problème lors de la suppression d'un élément de tab1.
 *
-*********************************/
+* ------------------------------------------------------------------------- */
 int difference_tableaux(Tableau* tab1, Tableau* tab2);
 
-/*******************************
+/* ------------------------------------------------------------------------- *
 ** Fonction pour supprimer un tableau.
 *
 ** Paramètre :
@@ -146,6 +169,6 @@ int difference_tableaux(Tableau* tab1, Tableau* tab2);
 ** Retour :
 * /
 *
-*********************************/
+* ------------------------------------------------------------------------- */
 void detruire_tableau(Tableau* tab);
 #endif
