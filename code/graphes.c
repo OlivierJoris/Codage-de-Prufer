@@ -827,7 +827,7 @@ bool contient_cycle(GRAPHE *g){
 				fprintf(stderr, "** ERREUR lors de la suppression d'un sommet de l'arbre.\n");
 				return true;
 			}
-			//On recommence au premier sommet
+			//On recommence à partir du premier sommet après avoir supprimer un sommet de degré 1 
 			pSommet = g->premierSommet;
 		}
 
@@ -837,6 +837,68 @@ bool contient_cycle(GRAPHE *g){
 
 	if(g->premierSommet->suivant == NULL)
 		return false;
+
+	return true;
+}
+
+bool est_non_oriente(GRAPHE *g){
+	if(g == NULL){
+		fprintf(stderr, "** ERREUR le pointeur vers le graphe vaut NULL dans est_non_oriente.\n");
+		return false;
+	}
+	
+	SOMMET *pSommet = g->premierSommet, *tmp;
+	ELTADJ *pAdj;
+	int labelSommetAdj = 0;
+	bool arcEstPresent = false;
+
+	// On parcourt le graphe
+	while(pSommet != NULL){
+
+		pAdj = pSommet->adj;
+
+		// On parcourt les sommets adjacents à un sommet
+		while(pAdj != NULL){
+			
+			tmp = pSommet;
+			labelSommetAdj = pAdj->dest;
+			pSommet = g->premierSommet;
+
+			// On se place sur un sommet adjacent à un sommet
+			while(pSommet != NULL){
+
+				if(pSommet->label == labelSommetAdj)
+					break;
+
+				pSommet = pSommet->suivant;
+			}
+
+			pAdj = pSommet->adj;
+
+			// On vérifie que l'arc est également présent dans l'autre sens
+			while(pAdj != NULL){
+				
+				if(pAdj->dest == tmp->label){
+					arcEstPresent = true;
+					break;
+				}
+
+				pAdj = pAdj->suivant;
+			}
+
+			// S'il n'est pas présent, le graphe n'est pas non-orienté
+			if(!arcEstPresent)
+				return false;
+
+			// Sinon on continue avec les autres sommets adjacents
+			pAdj = pSommet->adj->suivant;
+			pSommet = tmp;
+			if(pAdj != NULL)
+				printf("%d\n", pAdj->dest);
+		}
+
+		pSommet = pSommet->suivant;
+	}
 
 	return true;
 }

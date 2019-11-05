@@ -36,9 +36,20 @@ int main(int argc, char **argv){
 				return EXIT_FAILURE;
 			}
 
+			bool estNonOriente = est_non_oriente(&g);
+			if(!estNonOriente){
+				fprintf(stderr, "Le graphe n'est pas non-orienté donc le graphe n'est pas un arbre.\n");
+				fprintf(stderr, "Le codage de Prüfer s'applique uniquement aux arbres donc on ne peut pas chercher le codage de Prüfer associé au graphe donné.\n");
+				supprimerGraphe(&g);
+				return EXIT_FAILURE;
+			}else{
+				printf("Le graphe est non-orienté.\n");
+				supprimerGraphe(&g);
+			}
+
 			//Il faut également vérifier que le graphe ne contient pas de cycle.
-			bool testCycle = contient_cycle(&g);
-			if(testCycle){
+			bool contientCycle = contient_cycle(&g);
+			if(contientCycle){
 				fprintf(stderr, "Le graphe contient au moins un cycle donc le graphe n'est pas un arbre.\n");
 				fprintf(stderr, "Le codage de Prüfer s'applique uniquement aux arbres donc on ne peut pas chercher le codage de Prüfer associé au graphe donné.\n");
 				supprimerGraphe(&g);
