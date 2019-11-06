@@ -815,6 +815,7 @@ bool contient_cycle(GRAPHE *g){
 
 		pAdj = pSommet->adj;
 
+		// Ceci suffit car le graphe est non-orienté (vu la vérification de la fonction "est_non_oriente")
 		while(pAdj != NULL){
 			++degreSommet;
 			pAdj = pAdj->suivant;
