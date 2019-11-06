@@ -47,6 +47,12 @@ int main(int argc, char **argv){
 				supprimerGraphe(&g);
 			}
 
+			resultatLecture = lireFichier(fichier, &g);
+			if(resultatLecture < 0){
+				fprintf(stderr, "** ERREUR lors de la lecture du graphe.\n");
+				return EXIT_FAILURE;
+			}
+
 			//Il faut également vérifier que le graphe ne contient pas de cycle.
 			bool contientCycle = contient_cycle(&g);
 			if(contientCycle){

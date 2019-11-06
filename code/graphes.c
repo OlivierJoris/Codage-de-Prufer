@@ -847,8 +847,8 @@ bool est_non_oriente(GRAPHE *g){
 		return false;
 	}
 	
-	SOMMET *pSommet = g->premierSommet, *tmp;
-	ELTADJ *pAdj;
+	SOMMET *pSommet = g->premierSommet, *pTmpSommet;
+	ELTADJ *pAdj, *pTmpAdj;
 	int labelSommetAdj = 0;
 	bool arcEstPresent = false;
 
@@ -857,33 +857,32 @@ bool est_non_oriente(GRAPHE *g){
 
 		pAdj = pSommet->adj;
 
-		// On parcourt les sommets adjacents à un sommet
+		// On parcourt les sommets adjacents au sommet actuel
 		while(pAdj != NULL){
-			
-			tmp = pSommet;
-			labelSommetAdj = pAdj->dest;
-			pSommet = g->premierSommet;
 
-			// On se place sur un sommet adjacent à un sommet
-			while(pSommet != NULL){
+			pTmpSommet = g->premierSommet;
+			labelSommetAdj = pSommet->adj->dest;
 
-				if(pSommet->label == labelSommetAdj)
+			// On se place sur le sommet de label labelSommetAdj
+			while(pTmpSommet != NULL){
+
+				if(pTmpSommet->label == labelSommetAdj)
 					break;
 
-				pSommet = pSommet->suivant;
+				pTmpSommet = pTmpSommet->suivant;
 			}
 
-			pAdj = pSommet->adj;
+			pTmpAdj = pTmpSommet->adj;
 
 			// On vérifie que l'arc est également présent dans l'autre sens
-			while(pAdj != NULL){
+			while(pTmpAdj != NULL){
 				
-				if(pAdj->dest == tmp->label){
+				if(pTmpAdj->dest == pSommet->label){
 					arcEstPresent = true;
 					break;
 				}
 
-				pAdj = pAdj->suivant;
+				pTmpAdj = pTmpAdj->suivant;
 			}
 
 			// S'il n'est pas présent, le graphe n'est pas non-orienté
@@ -891,10 +890,7 @@ bool est_non_oriente(GRAPHE *g){
 				return false;
 
 			// Sinon on continue avec les autres sommets adjacents
-			pAdj = pSommet->adj->suivant;
-			pSommet = tmp;
-			if(pAdj != NULL)
-				printf("%d\n", pAdj->dest);
+			pAdj = pAdj->suivant;
 		}
 
 		pSommet = pSommet->suivant;

@@ -146,7 +146,8 @@ bool contient_cycle(GRAPHE *g);
 
 /* ------------------------------------------------------------------------- *
  ** Fonction pour déterminer si un graphe est non oriente
- *
+ * (cette fonction modifie le graphe de départ)
+ * 
  ** PARAMETRES
  * g, un pointeur vers le graphe étudié.
  *
