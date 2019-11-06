@@ -207,11 +207,16 @@ int decoder_codage_prufer(GRAPHE *arbre, CodagePrufer *codage){
 		return -1;
 	}
 
+	if(arbre == NULL){
+		fprintf(stderr, "** ERREUR : pointeur vers l'arbre vaut NULL.\n");
+		return -2;
+	}
+
 	int nbSommetsG = codage->taille + 2;
 
 	int *degres = malloc(sizeof(int) * nbSommetsG);
 	if(degres == NULL)
-		return -2;
+		return -3;
 
 	for(int i = 0; i < nbSommetsG; ++i){
 		ajouterSommet(arbre, 0);
