@@ -19,17 +19,138 @@
 \usepackage{listings}
 \usepackage{titlesec, blindtext, color}
 \usepackage[table,xcdraw,dvipsnames]{xcolor}
+\usepackage[unicode]{hyperref}
+\usepackage{url}
+
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+
+\lstset{
+    language=C, % Utilisation du langage C
+    commentstyle={\color{MidnightBlue}}, % Couleur des commentaires
+    frame=single, % Entoure le code d'un joli cadre
+    rulecolor=\color{black}, % Couleur de la ligne qui forme le cadre
+    stringstyle=\color{RawSienna}, % Couleur des chaines de caractères
+    numbers=left, % Ajoute une numérotation des lignes à gauche
+    numbersep=5pt, % Distance entre les numérots de lignes et le code
+    numberstyle=\tiny\color{mygray}, % Couleur des numéros de lignes
+    basicstyle=\tt\footnotesize, 
+    tabsize=3, % Largeur des tabulations par défaut
+    keywordstyle=\tt\bf\footnotesize\color{Sepia}, % Style des mots-clés
+    extendedchars=true, 
+    captionpos=b, % sets the caption-position to bottom
+    texcl=true, % Commentaires sur une ligne interprétés en Latex
+    showstringspaces=false, % Ne montre pas les espace dans les chaines de caractères
+    escapeinside={(>}{<)}, % Permet de mettre du latex entre des <( et )>.
+    inputencoding=utf8,
+    literate=
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\`E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
+  {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
+}
 
 %%%% Page de garde %%%%
 
 \title{Codage de Prüfer}
-\author{Maxime GOFFART et Olivier JORIS}
+\author{Maxime GOFFART - Olivier JORIS}
 \date{2019 - 2020}
 
 \begin{document}
+
 \maketitle
 \newpage
 
 \tableofcontents
+\newpage
+
+\section{Introduction}
+
+Le codage de Prüfer permet d'encoder un arbre de taille n (dont les sommets ont des labels différents compris entre 1 et n) via une suite de naturels de longueur n - 2. Il existe donc une bijection entre un arbre dont les n sommets sont numérotés et son codage de Prüfer ce qui implique qu'un seul arbre admet un seul codage de Prüfer et inversement.\\
+
+Cette bijection permet de facilement démontrer la formule de Cayley:\
+
+\textit{Soit n > 1, on peut construire exactement $n^{n-2}$ arbres différents constitués de n sommets.}\\
+
+Ce codage permet également de mémoriser un arbre sans passer par sa matrice d'adjacence ou par sa liste d'adjacence. De cela découle une optimisation de sa complexité spatiale et par conséquent des complexités temporelles des algorithmes le manipulant.\\
+
+Nous avons réalisé un programme qui, à un arbre donné, donne son codage de Prüfer et inversement.
+
+\section{Mode d'emploi du programme}
+
+Le programme peut être compilé à l'aide du \textit{makefile} via la commande suivante:
+
+\begin{lstlisting}[language=bash]
+$ make prufer
+\end{lstlisting}
+
+Un exécutable nommé \texttt{prufer} est alors créé, celui-ci peut être lancé à l'aide de deux arguments:
+
+\begin{lstlisting}[language=bash]
+$ ./prufer -m encodage -f exempleGraphe.txt
+\end{lstlisting}
+
+où l'option m désigne le mode d'utilisation du programme \footnote{encodage ou decodage}. L'option f désigne le fichier contenant la matrice d'adjacence du graphe en cas d'encodage et la suite de Prüfer (précédé de sa longueur sur la première ligne) en cas de décodage. Des exemples de fichiers sont disponibles dans le dossier \texttt{/code}.
+
+\section{Stratégie adoptée}
+
+Le codage de Prüfer s'appliquant uniquement aux arbres, nous avons d'abord implémentés des fonctions vérifiant que le graphe fournit par l'utilisateur soit un arbre\footnote{En cas d'encodage}.
+
+Ensuite, nous nous sommes renseignés sur le fonctionnement des algorithmes d'encodage et de décodage (via ce lien: \url{https://fr.wikipedia.org/wiki/Codage_de_Pr%C3%BCfer}) et nous les avons implémentés.
+
+\newpage
+
+\section{Choix opérés}
+
+Nous avons choisis de représenter un codage de Prüfer grâce à cette structure, permettant de directement accéder à la taille de la séquence de nombres: 
+
+\begin{lstlisting}
+typedef struct CodagePrufer_t{
+	unsigned int taille; // La taille du codage de Prüfer
+	int* suitePrufer; // La suite de Prüfer (suite de nombres)
+}CodagePrufer;
+\end{lstlisting}
+
+\section{Principales fonctions}
+
+Les principales fonctions composant notre programme sont:\\
+
+\begin{itemize}
+
+\item[\textbullet] Des fonctions vérifiant si le graphe est un arbre:\\
+
+\begin{itemize}
+
+	\item[-] \texttt{test\_connexite}: Vérifie si un graphe donné en argument est connexe.
+	
+	\item[-] \texttt{est\_non\_oriente}: Vérifie si un graphe donné en argument est non orienté.
+
+	\item[-] \texttt{contient\_cycle}: Vérifie si un graphe donné en argument contient au moins un cycle.\\
+
+\end{itemize}
+
+\item[\textbullet] Des fonctions d'encodage d'un graphe et de décodage d'une séquence de Prüfer:\\
+
+\begin{itemize}
+
+	\item[-] \texttt{generer\_codage\_prufer}: Génère le codage associé à l'arbre donné.
+	
+	\item[-] \texttt{decoder\_codage\_prufer}: Génère l'arbre associé au codage de Prüfer donné.
+
+\end{itemize}
+
+\end{itemize}
+
+\section{Difficultés rencontrées}
+
+Les principales difficultés rencontrées étaient liées aux manipulations de liste d'adjacence du graphe donné. Un schéma représentant celle-ci facilite leur manipulation.
 
 \end{document}
