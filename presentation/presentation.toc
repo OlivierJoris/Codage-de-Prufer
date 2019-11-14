@@ -2,7 +2,7 @@
 \beamer@sectionintoc {1}{Origine du codage de Pr\IeC {\"u}fer}{3}{0}{1}
 \beamer@sectionintoc {2}{Utilit\IeC {\'e} des codages de Pr\IeC {\"u}fer}{5}{0}{2}
 \beamer@subsectionintoc {2}{1}{1\up {re}\relax {} utilit\IeC {\'e}}{5}{0}{2}
-\beamer@subsectionintoc {2}{2}{2\up {e}\relax {} utilit\IeC {\'e}}{9}{0}{2}
-\beamer@sectionintoc {3}{Exemples}{16}{0}{3}
-\beamer@subsectionintoc {3}{1}{Codage}{16}{0}{3}
-\beamer@subsectionintoc {3}{2}{D\IeC {\'e}codage}{18}{0}{3}
+\beamer@subsectionintoc {2}{2}{2\up {e}\relax {} utilit\IeC {\'e}}{10}{0}{2}
+\beamer@sectionintoc {3}{Exemples}{17}{0}{3}
+\beamer@subsectionintoc {3}{1}{Codage}{17}{0}{3}
+\beamer@subsectionintoc {3}{2}{D\IeC {\'e}codage}{19}{0}{3}
