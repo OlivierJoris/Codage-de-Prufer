@@ -83,8 +83,10 @@ Cette bijection permet de facilement démontrer la formule de Cayley:
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.2]{formule_Cayley.png} 
-	\caption{Liste complète des arbres à 2, 3 et 4 sommets.}
+	\caption{Liste complète des arbres à 2, 3 et 4 sommets\protect\footnotemark}
 \end{figure}
+
+\footnotetext{Source : \url{https://fr.wikipedia.org/wiki/Formule_de_Cayley}}
 
 Ce codage permet également représenter un arbre sans utiliser sa matrice d'adjacence ou sa liste d'adjacence. De cela découle une optimisation de sa complexité spatiale et par conséquent des complexités temporelles des algorithmes le manipulant.\\
 
@@ -104,7 +106,7 @@ Un exécutable nommé \texttt{prufer} est alors créé, celui-ci peut être lanc
 $ ./prufer -m encodage -f exempleGraphe.txt
 \end{lstlisting}
 
-où l'option \texttt{-m} désigne le mode d'utilisation du programme \footnote{Encodage ou decodage}. L'option \texttt{-f} désigne le fichier contenant la matrice d'adjacence du graphe en cas d'encodage et la suite de Prüfer (précédé de sa longueur sur la première ligne) en cas de décodage. Des exemples de fichiers sont disponibles dans le dossier \texttt{/code}.
+où l'option \texttt{-m} désigne le mode d'utilisation du programme\footnote{Encodage ou decodage}. L'option \texttt{-f} désigne le fichier contenant la matrice d'adjacence du graphe en cas d'encodage et la suite de Prüfer (précédé de sa longueur sur la première ligne) en cas de décodage. Des exemples de fichiers sont disponibles dans le dossier \texttt{/code}.
 
 \section{Stratégie adoptée}
 
