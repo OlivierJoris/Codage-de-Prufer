@@ -7,7 +7,7 @@
  * ------------------------------------------------------------------------- */
 
 #ifndef __PRUFER__
-#define  __PRUFER__
+#define __PRUFER__
 
 #include "graphes.h"
 
