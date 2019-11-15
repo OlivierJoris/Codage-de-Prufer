@@ -74,13 +74,13 @@
 
 \section{Introduction}
 
-Le codage de Prüfer permet d'encoder un arbre de taille n (dont les sommets ont des labels différents compris entre 1 et n) via une suite de naturels de longueur n - 2. Il existe donc une bijection entre un arbre dont les n sommets sont numérotés et son codage de Prüfer ce qui implique qu'un seul arbre admet un seul codage de Prüfer et inversement.\\
+Le codage de Prüfer permet d'encoder un arbre composé de n sommets (avec des labels différents compris entre 1 et n) via une suite de naturels de longueur n - 2. Il existe donc une bijection entre un arbre dont les n sommets sont numérotés et son codage de Prüfer ce qui implique qu'un seul arbre admet un seul codage de Prüfer et inversement.\\
 
 Cette bijection permet de facilement démontrer la formule de Cayley:\
 
 \textit{Soit n > 1, on peut construire exactement $n^{n-2}$ arbres différents constitués de n sommets.}\\
 
-Ce codage permet également de mémoriser un arbre sans passer par sa matrice d'adjacence ou par sa liste d'adjacence. De cela découle une optimisation de sa complexité spatiale et par conséquent des complexités temporelles des algorithmes le manipulant.\\
+Ce codage permet également de représenter un arbre en mémoire sans utiliser sa matrice d'adjacence ou sa liste d'adjacence. De cela découle une optimisation de sa complexité spatiale et par conséquent des complexités temporelles des algorithmes le manipulant.\\
 
 Nous avons réalisé un programme qui, à un arbre donné, donne son codage de Prüfer et inversement.
 
@@ -98,11 +98,11 @@ Un exécutable nommé \texttt{prufer} est alors créé, celui-ci peut être lanc
 $ ./prufer -m encodage -f exempleGraphe.txt
 \end{lstlisting}
 
-où l'option m désigne le mode d'utilisation du programme \footnote{encodage ou decodage}. L'option f désigne le fichier contenant la matrice d'adjacence du graphe en cas d'encodage et la suite de Prüfer (précédé de sa longueur sur la première ligne) en cas de décodage. Des exemples de fichiers sont disponibles dans le dossier \texttt{/code}.
+où l'option \texttt{-m} désigne le mode d'utilisation du programme \footnote{Encodage ou decodage}. L'option \texttt{-f} désigne le fichier contenant la matrice d'adjacence du graphe en cas d'encodage et la suite de Prüfer (précédé de sa longueur sur la première ligne) en cas de décodage. Des exemples de fichiers sont disponibles dans le dossier \texttt{/code}.
 
 \section{Stratégie adoptée}
 
-Le codage de Prüfer s'appliquant uniquement aux arbres, nous avons d'abord implémentés des fonctions vérifiant que le graphe fournit par l'utilisateur soit un arbre\footnote{En cas d'encodage}.
+Le codage de Prüfer s'appliquant uniquement aux arbres, nous avons d'abord implémentés des fonctions vérifiant que le graphe fourni par l'utilisateur soit un arbre\footnote{En cas d'encodage}.
 
 Ensuite, nous nous sommes renseignés sur le fonctionnement des algorithmes d'encodage et de décodage (via ce lien: \url{https://fr.wikipedia.org/wiki/Codage_de_Pr%C3%BCfer}) et nous les avons implémentés.
 
