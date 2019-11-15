@@ -1,7 +1,7 @@
 \babel@toc {french}{}
 \contentsline {section}{\numberline {1}Introduction}{3}{section.1}
 \contentsline {section}{\numberline {2}Mode d'emploi du programme}{3}{section.2}
-\contentsline {section}{\numberline {3}Strat\IeC {\'e}gie adopt\IeC {\'e}e}{3}{section.3}
+\contentsline {section}{\numberline {3}Strat\IeC {\'e}gie adopt\IeC {\'e}e}{4}{section.3}
 \contentsline {section}{\numberline {4}Choix op\IeC {\'e}r\IeC {\'e}s}{4}{section.4}
 \contentsline {section}{\numberline {5}Principales fonctions}{4}{section.5}
 \contentsline {section}{\numberline {6}Difficult\IeC {\'e}s rencontr\IeC {\'e}es}{4}{section.6}

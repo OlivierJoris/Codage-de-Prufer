@@ -21,6 +21,7 @@
 \usepackage[table,xcdraw,dvipsnames]{xcolor}
 \usepackage[unicode]{hyperref}
 \usepackage{url}
+\usepackage{float}
 
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 
@@ -74,13 +75,18 @@
 
 \section{Introduction}
 
-Le codage de Prüfer permet d'encoder un arbre composé de n sommets (avec des labels différents compris entre 1 et n) via une suite de naturels de longueur n - 2. Il existe donc une bijection entre un arbre dont les n sommets sont numérotés et son codage de Prüfer ce qui implique qu'un seul arbre admet un seul codage de Prüfer et inversement.\\
+Le codage de Prüfer permet d'encoder un arbre composé de n sommets (avec des labels différents compris entre 1 et n) via une suite de n - 2 naturels. Il existe donc une bijection entre un arbre dont les n sommets sont numérotés et son codage de Prüfer ce qui implique qu'un seul arbre admet un seul codage de Prüfer et inversement.\\
 
-Cette bijection permet de facilement démontrer la formule de Cayley:\
+Cette bijection permet de facilement démontrer la formule de Cayley:
+\textit{Soit n > 1, on peut construire exactement $n^{n-2}$ arbres différents constitués de n sommets.}
 
-\textit{Soit n > 1, on peut construire exactement $n^{n-2}$ arbres différents constitués de n sommets.}\\
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.2]{formule_Cayley.png} 
+	\caption{Liste complète des arbres à 2, 3 et 4 sommets.}
+\end{figure}
 
-Ce codage permet également de représenter un arbre en mémoire sans utiliser sa matrice d'adjacence ou sa liste d'adjacence. De cela découle une optimisation de sa complexité spatiale et par conséquent des complexités temporelles des algorithmes le manipulant.\\
+Ce codage permet également représenter un arbre sans utiliser sa matrice d'adjacence ou sa liste d'adjacence. De cela découle une optimisation de sa complexité spatiale et par conséquent des complexités temporelles des algorithmes le manipulant.\\
 
 Nous avons réalisé un programme qui, à un arbre donné, donne son codage de Prüfer et inversement.
 
@@ -105,8 +111,6 @@ où l'option \texttt{-m} désigne le mode d'utilisation du programme \footnote{E
 Le codage de Prüfer s'appliquant uniquement aux arbres, nous avons d'abord implémentés des fonctions vérifiant que le graphe fourni par l'utilisateur soit un arbre\footnote{En cas d'encodage}.
 
 Ensuite, nous nous sommes renseignés sur le fonctionnement des algorithmes d'encodage et de décodage (via ce lien: \url{https://fr.wikipedia.org/wiki/Codage_de_Pr%C3%BCfer}) et nous les avons implémentés.
-
-\newpage
 
 \section{Choix opérés}
 
