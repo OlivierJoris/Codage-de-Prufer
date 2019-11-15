@@ -27,6 +27,9 @@ Table des matières :
 \tableofcontents
 \end{frame}
 
+%Max :blabla habituel
+
+%Olivier
 \section{Origine du codage de Prüfer}
 
 \begin{frame}{Origine du codage de Prüfer}
@@ -56,6 +59,7 @@ Un exemple sera donné plus loin.
 
 \section{Utilité des codages de Prüfer}
 
+%%Olivier
 \subsection{1\iere{} utilité}
 \begin{frame}
 \tableofcontents[currentsection, currentsubsection]
@@ -87,6 +91,24 @@ Soit n $>$ 1. On peut construire n$^{\text{n}-2}$ arbres différents constitués
 
 \end{frame}
 
+\begin{frame}
+\frametitle{Utilité des codages de Prüfer}
+\framesubtitle{Mathématique}
+
+\begin{center}
+Exemple pour n = 2, n = 3 et n = 4
+\end{center}
+\begin{figure}[!ht] \center
+\includegraphics[scale=0.09]{cayley.png}
+\end{figure}
+
+\begin{center}
+\tiny{\url{https://fr.wikipedia.org/wiki/Formule_de_Cayley}}
+\end{center}
+
+\end{frame}
+
+%Maxime
 \subsection{2\ieme{} utilité}
 \begin{frame}
 \tableofcontents[currentsection, currentsubsection]
@@ -176,6 +198,7 @@ Pour les grands arbres, le codage de Prüfer est très intéressant.
 
 \section{Exemples}
 
+%%Maxime
 \subsection{Codage}
 \begin{frame}
 \tableofcontents[currentsection, currentsubsection]
@@ -187,11 +210,20 @@ Pour les grands arbres, le codage de Prüfer est très intéressant.
 
 \begin{center}
 Voir \textit{Jupyter Notebook}\\
-\vspace{3cm}
+\vspace{0.5cm}
+\begin{table}[]
+\centering
+\begin{tabular}{c|c}
+ Arbre&  Codage attendu\\
+ \includegraphics[scale=0.40]{exempleArbre.png}& 4 4 4 5
+\end{tabular}
+\end{table}
+\vspace{1cm}
 \tiny{\url{http://localhost:8888/notebooks/Codage\%20Prufer\%20exemple.ipynb\#}}
 \end{center}
 \end{frame}
 
+%Olivier
 \subsection{Décodage}
 \begin{frame}
 \tableofcontents[currentsection, currentsubsection]
@@ -203,7 +235,22 @@ Voir \textit{Jupyter Notebook}\\
 
 \begin{center}
 Voir \textit{Jupyter Notebook}\\
-\vspace{3cm}
+\vspace{0.5cm}
+\begin{table}[]
+\centering
+\begin{tabular}{c|c}
+ Codage& Matrice attendue \\
+ 4 4 4 5& $\begin{array}{cccccc}
+x & x & x & 1 & x & x \\ 
+x & x & x & 1 & x & x \\ 
+x & x & x & 1 & x & x \\ 
+1 & 1 & 1 & x & 1 & x \\ 
+x & x & x & 1 & x & 1 \\ 
+x & x & x & x & 1 & x
+\end{array}$
+\end{tabular}
+\end{table}
+\vspace{1cm}
 \tiny{\url{http://localhost:8888/notebooks/Decodage\%20Prufer\%20exemple.ipynb}}
 \end{center}
 \end{frame}
