@@ -47,13 +47,6 @@ int main(int argc, char **argv){
 				supprimerGraphe(&g);
 			}
 
-			// La fonction "est_non_oriente" modifiant le graphe de départ, il faut recharger celui-ci.
-			resultatLecture = lireFichier(fichier, &g);
-			if(resultatLecture < 0){
-				fprintf(stderr, "** ERREUR lors de la lecture du graphe.\n");
-				return EXIT_FAILURE;
-			}
-
 			bool contientCycle = contient_cycle(&g);
 			if(contientCycle){
 				fprintf(stderr, "Le graphe contient au moins un cycle donc le graphe n'est pas un arbre.\n");
