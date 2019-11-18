@@ -106,7 +106,7 @@ Un exécutable nommé \texttt{prufer} est alors créé, celui-ci peut être lanc
 $ ./prufer -m encodage -f exempleGraphe.txt
 \end{lstlisting}
 
-où l'option \texttt{-m} désigne le mode d'utilisation du programme\footnote{Encodage ou decodage}. L'option \texttt{-f} désigne le fichier contenant la matrice d'adjacence du graphe en cas d'encodage et la suite de Prüfer (précédé de sa longueur sur la première ligne) en cas de décodage. Des exemples de fichiers sont disponibles dans le dossier \texttt{/code}.
+où l'option \texttt{-m} désigne le mode d'utilisation du programme\footnote{encodage ou decodage}. L'option \texttt{-f} désigne le fichier contenant la matrice d'adjacence du graphe en cas d'encodage et la suite de Prüfer (précédé de sa longueur sur la première ligne) en cas de décodage. Des exemples de fichiers sont disponibles dans le dossier \texttt{/code}.
 
 \section{Stratégie adoptée}
 
@@ -124,6 +124,8 @@ typedef struct CodagePrufer_t{
 	int* suitePrufer; // La suite de Prüfer (suite de nombres)
 }CodagePrufer;
 \end{lstlisting}
+
+En ce qui concerne la représentation des graphes, nous avons choisi d'utiliser l'interface \texttt{graphes.c/graphes.h} qui nous était proposée sans y apporter de modifications.
 
 \section{Principales fonctions}
 
@@ -158,5 +160,37 @@ Les principales fonctions composant notre programme sont:\\
 \section{Difficultés rencontrées}
 
 Les principales difficultés rencontrées étaient liées aux manipulations de liste d'adjacence du graphe donné. Un schéma représentant celle-ci facilite leur manipulation.
+
+\section{Résultats expérimentaux}
+
+Les résultats suivants ont été obtenus en mesurant empiriquement les temps de calcul des fonctions d'encodage d'un arbre et de décodage d'une suite de Prüfer. Ceux-ci ont été obtenus en générant aléatoirement une suite de Prüfer qui a ensuite été décodée puis, grâce au graphe résultant, a été encodée. Les fonctions prévues à cet effet sont situées dans le module \texttt{prufer\_benchmarking.c}. Ce module peut être compilé séparément du programme principal grâce à l'utilisation de la commande suivante:
+
+\begin{lstlisting}[language=bash]
+$ make prufer_benchmarking 
+\end{lstlisting}
+
+Un exécutable \texttt{prufer\_benchmarking} est alors créé, celui-ci peut-être lancé à l'aide d'un argument désignant le nombre de sommets composant l'arbre généré aléatoirement:
+
+\begin{lstlisting}[language=bash]
+$ ./prufer_benchmarking 1000
+\end{lstlisting}
+
+Une fois le temps de calcul écoulé, celui-ci est disponible avec le nombre de sommet correspondant sur une nouvelle ligne des fichiers \texttt{resultats\_encodage} pour le temps d'encodage et \texttt{resultats\_decodage} pour le temps de décodage.\\
+
+Ces tests ont été effectués sur une machine dotée d'un Intel Core i5 de 2 coeurs cadencés à 2.3 GHz. Le code a été compilé avec l'optimisation au niveau 3 \footnote{L'option -O3}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{temps_encodage.pdf} 
+	\caption{Temps d'encodage en fonction du nombre de sommets de l'arbre}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{temps_decodage.pdf} 
+	\caption{Temps de décodage en fonction du nombre de sommets de l'arbre}
+\end{figure}
+
+Sur base des figure 2 et 3, on voit que le temps d'encodage est nettement plus élevé que le temps de décodage. En effet, contrairement au décodage l'encodage nécessite de rechercher la feuille ayant le plus petit label ce qui est gourmand en temps.
 
 \end{document}

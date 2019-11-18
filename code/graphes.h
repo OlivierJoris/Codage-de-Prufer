@@ -9,7 +9,7 @@
 
 #include "tableau.h"
 
-#define MAX 10000
+#define MAX 100000
 
 struct eltadj{ //Liste d'adjacence -- Sommet adjacent à un somme donné.
 	int dest; //Extrémité de l'arc.

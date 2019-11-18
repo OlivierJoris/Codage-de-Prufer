@@ -5,3 +5,4 @@
 \contentsline {section}{\numberline {4}Choix op\IeC {\'e}r\IeC {\'e}s}{4}{section.4}
 \contentsline {section}{\numberline {5}Principales fonctions}{4}{section.5}
 \contentsline {section}{\numberline {6}Difficult\IeC {\'e}s rencontr\IeC {\'e}es}{4}{section.6}
+\contentsline {section}{\numberline {7}R\IeC {\'e}sultats exp\IeC {\'e}rimentaux}{4}{section.7}

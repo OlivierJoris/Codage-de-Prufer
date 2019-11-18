@@ -18,6 +18,12 @@ prufer: $(OBJETS)
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+prufer_benchmarking.o : prufer_benchmarking.c prufer.h graphes.h utilitaires.h tableau.h
+	$(CC) $(CFLAGS) -c prufer_benchmarking.c -o prufer_benchmarking.o
+
+prufer_benchmarking: prufer_benchmarking.o graphes.o prufer.o utilitaires.o tableau.o
+	$(LD) -o prufer_benchmarking prufer_benchmarking.o graphes.o prufer.o utilitaires.o tableau.o $(LDFLAGS)
+
 clean:
-	rm $(OBJETS) prufer
+	rm -f $(OBJETS) prufer_benchmarking.o prufer prufer_benchmarking
 	clear
