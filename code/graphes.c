@@ -402,8 +402,7 @@ int sauvegarder_graphe(GRAPHE *g){
 				fprintf(fichierGraphe, "x,");
 			}//Fin for()
 			//Cas séparé car on ne veut pas de virgule en fin de ligne.
-			fprintf(fichierGraphe, "x");
-			fprintf(fichierGraphe, "\n");
+			fprintf(fichierGraphe, "x\n");
 		}//Fin for()
 	}//Fin if()
 
@@ -828,7 +827,7 @@ bool contient_cycle(GRAPHE *g){
 				fprintf(stderr, "** ERREUR lors de la suppression d'un sommet de l'arbre.\n");
 				return true;
 			}
-			//On recommence à partir du premier sommet après avoir supprimer un sommet de degré 1 
+			//On recommence à partir du premier sommet après avoir supprimer un sommet de degré 1
 			pSommet = g->premierSommet;
 		}
 
@@ -840,14 +839,14 @@ bool contient_cycle(GRAPHE *g){
 		return false;
 
 	return true;
-}
+}//Fin contient_cycle()
 
 bool est_non_oriente(GRAPHE *g){
 	if(g == NULL){
 		fprintf(stderr, "** ERREUR le pointeur vers le graphe vaut NULL dans est_non_oriente.\n");
 		return false;
 	}
-	
+
 	GRAPHE *tmp = g;
 	SOMMET *pSommet = g->premierSommet, *pTmpSommet;
 	ELTADJ *pAdj, *pTmpAdj;
@@ -878,7 +877,7 @@ bool est_non_oriente(GRAPHE *g){
 
 			// On vérifie que l'arc est également présent dans l'autre sens
 			while(pTmpAdj != NULL){
-				
+
 				if(pTmpAdj->dest == pSommet->label){
 					arcEstPresent = true;
 					break;
@@ -899,6 +898,6 @@ bool est_non_oriente(GRAPHE *g){
 	}
 
 	g = tmp;
-	
+
 	return true;
-}
+}//Fin est_non_oriente()
