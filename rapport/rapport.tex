@@ -75,9 +75,9 @@
 
 \section{Introduction}
 
+\paragraph{}
 Le codage de Prüfer permet d'encoder un arbre composé de n sommets (avec des labels différents compris entre 1 et n) via une suite de n - 2 naturels. Il existe donc une bijection entre un arbre dont les n sommets sont numérotés et son codage de Prüfer ce qui implique qu'un seul arbre admet un seul codage de Prüfer et inversement.\\
-
-Cette bijection permet de facilement démontrer la formule de Cayley:
+Cette bijection permet de facilement démontrer la formule de Cayley:\\
 \textit{Soit n > 1, on peut construire exactement $n^{n-2}$ arbres différents constitués de n sommets.}
 
 \begin{figure}[H]
@@ -88,7 +88,7 @@ Cette bijection permet de facilement démontrer la formule de Cayley:
 
 \footnotetext{Source : \url{https://fr.wikipedia.org/wiki/Formule_de_Cayley}}
 
-Ce codage permet également représenter un arbre sans utiliser sa matrice d'adjacence ou sa liste d'adjacence. De cela découle une optimisation de sa complexité spatiale et par conséquent des complexités temporelles des algorithmes le manipulant.\\
+Ce codage permet également de représenter un arbre sans utiliser sa matrice d'adjacence ou sa liste d'adjacence. De cela découle une optimisation de sa complexité spatiale et par conséquent des complexités temporelles des algorithmes le manipulant.\\
 
 Nous avons réalisé un programme qui, à un arbre donné, donne son codage de Prüfer et inversement.
 
@@ -175,7 +175,7 @@ Un exécutable \texttt{prufer\_benchmarking} est alors créé, celui-ci peut-êt
 $ ./prufer_benchmarking 1000
 \end{lstlisting}
 
-Une fois le temps de calcul écoulé, celui-ci est disponible avec le nombre de sommet correspondant sur une nouvelle ligne des fichiers \texttt{resultats\_encodage} pour le temps d'encodage et \texttt{resultats\_decodage} pour le temps de décodage.\\
+Une fois le temps de calcul écoulé, celui-ci est disponible avec le nombre de sommet correspondant sur une nouvelle ligne des fichiers \texttt{resultats\_encodage.txt} pour le temps d'encodage et \texttt{resultats\_decodage.txt} pour le temps de décodage.\\
 
 Ces tests ont été effectués sur une machine dotée d'un Intel Core i5 de 2 coeurs cadencés à 2.3 GHz. Le code a été compilé avec l'optimisation au niveau 3 \footnote{L'option -O3}.
 
@@ -191,6 +191,6 @@ Ces tests ont été effectués sur une machine dotée d'un Intel Core i5 de 2 co
 	\caption{Temps de décodage en fonction du nombre de sommets de l'arbre}
 \end{figure}
 
-Sur base des figure 2 et 3, on voit que le temps d'encodage est nettement plus élevé que le temps de décodage. En effet, contrairement au décodage l'encodage nécessite de rechercher la feuille ayant le plus petit label ce qui est gourmand en temps.
+Sur base des figure 2 et 3, on voit que le temps d'encodage est nettement plus élevé que le temps de décodage. En effet, contrairement au décodage, l'encodage nécessite de rechercher la feuille ayant le plus petit label ce qui est gourmand en temps.
 
 \end{document}
