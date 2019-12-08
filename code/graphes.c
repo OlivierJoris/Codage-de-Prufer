@@ -847,7 +847,6 @@ bool est_non_oriente(GRAPHE *g){
 		return false;
 	}
 
-	GRAPHE *tmp = g;
 	SOMMET *pSommet = g->premierSommet, *pTmpSommet;
 	ELTADJ *pAdj, *pTmpAdj;
 	int labelSommetAdj = 0;
@@ -896,8 +895,6 @@ bool est_non_oriente(GRAPHE *g){
 
 		pSommet = pSommet->suivant;
 	}
-
-	g = tmp;
 
 	return true;
 }//Fin est_non_oriente()
