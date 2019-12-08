@@ -19,7 +19,7 @@ ModeUtilisation gestion_des_arguments(int argc, char **argv, char *source){
 
 	const char *arguments = ":m:f:"; //Format attendu des options.
 	int optionCourante;
-	ModeUtilisation mode;
+	ModeUtilisation mode = erreur;
 
 	while((optionCourante = getopt(argc, argv, arguments)) != EOF){
 		switch(optionCourante){

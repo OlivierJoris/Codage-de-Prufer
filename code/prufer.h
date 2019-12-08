@@ -63,6 +63,7 @@ void afficher_codage_prufer(CodagePrufer *codage);
  * >0, la taille du codage qui se trouve dans le fichier 'nomFichier'.
  * -1, pointeur vers le nom du fichier non valide (= NULL).
  * -2, impossible d'ouvrir le fichier.
+ * -3, erreur lors de la lecture.
  *
  * ------------------------------------------------------------------------- */
 int lire_taille_codage(char *nomFichier);
@@ -80,6 +81,8 @@ int lire_taille_codage(char *nomFichier);
  * -2, pointeur vers la suite de Prufer dans le codage vaut NULL.
  * -3, pointeur vers le nom du fichier non valide (= NULL).
  * -4, impossible d'ouvrir le fichier qui contient le codage.
+ * -5, erreur lors de la lecture de la taille.
+ * -6, erreur lors de la lecture d'un nombre dans le fichier.
  *
  * ------------------------------------------------------------------------- */
 int lire_codage_prufer(CodagePrufer *codage, char *nomFichier);

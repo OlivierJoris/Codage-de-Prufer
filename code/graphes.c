@@ -48,7 +48,7 @@ int ajouterSommet(GRAPHE *g, int info){
 int ajouterArc(GRAPHE *g, int a, int b, int info){
 
 	SOMMET *psommet, *psommet2;
-	ELTADJ *padj, *precedent;
+	ELTADJ *padj, *precedent = NULL;
 
 	psommet = g->premierSommet;
 
@@ -135,7 +135,7 @@ int ajouterArc(GRAPHE *g, int a, int b, int info){
 
 int supprimerSommet(GRAPHE *g, int label){
 
-	SOMMET *psommet, *precedent;
+	SOMMET *psommet, *precedent = NULL;
 	ELTADJ *padj, *suivant, *precedent_adj;
 	int flag_premier_sommet, flag_premier_arc;
 

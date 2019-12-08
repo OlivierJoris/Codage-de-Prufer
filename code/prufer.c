@@ -73,7 +73,9 @@ int lire_taille_codage(char *nomFichier){
 
 	unsigned int taille;
 
-	fscanf(fichierCodage, "%u", &taille);
+	int resultatFscanf = fscanf(fichierCodage, "%u", &taille);
+	if(resultatFscanf != 1)
+		return -3;
 
 	if(fichierCodage != NULL)
 		fclose(fichierCodage);
@@ -103,10 +105,19 @@ int lire_codage_prufer(CodagePrufer *codage, char *nomFichier){
 
 	unsigned int tailleCodage;
 
-	fscanf(fichier, "%u\n", &tailleCodage);
+	int resultatLectureTaille = fscanf(fichier, "%u\n", &tailleCodage);
+	if(resultatLectureTaille != 1)
+		return -5;
+
+	int resultatLectureNombre;
 
 	for(unsigned int i = 0; i < tailleCodage; i++){
-		fscanf(fichier, "%d ", &nombreLu);
+		resultatLectureNombre = fscanf(fichier, "%d ", &nombreLu);
+		if(resultatLectureNombre != 1){
+			fprintf(stderr, "** ERREUR lors de la lecture d'un nombre dans le fichier.\n");
+			fclose(fichier);
+			return -6;
+		}
 		codage->suitePrufer[i] = nombreLu;
 	}//Fin for()
 
