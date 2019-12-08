@@ -47,7 +47,7 @@ int main(int argc, char **argv){
 				supprimerGraphe(&g);
 			}
 
-			// La fonction "est_oriente" modifiant le graphe de départ, il faut recharger celui-ci.
+			// La fonction "est_non_oriente" modifiant le graphe de départ, il faut recharger celui-ci.
 			resultatLecture = lireFichier(fichier, &g);
 			if(resultatLecture < 0){
 				fprintf(stderr, "** ERREUR lors de la lecture du graphe.\n");
