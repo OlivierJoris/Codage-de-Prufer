@@ -139,9 +139,11 @@ static void calculer_temps_encodage(unsigned int nbSommets){
 
 int main(int argc, char **argv){
 
-    if(argc != 2)
+    if(argc != 2){
         fprintf(stderr, "Veuillez indiquer le nombre de sommets maximum en arguments du programme.\n");
-    
+		return EXIT_FAILURE;
+	}
+
     generer_codage(atoi(argv[1]));
 
     calculer_temps_decodage(atoi(argv[1]));

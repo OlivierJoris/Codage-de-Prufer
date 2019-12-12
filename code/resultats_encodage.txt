@@ -15,3 +15,5 @@ Nombre de sommets : 7000 | Temps : 216.782618 secondes
 Nombre de sommets : 7500 | Temps : 289.693074 secondes
 Nombre de sommets : 8000 | Temps : 323.825271 secondes
 Nombre de sommets : 1000 | Temps : 0.736996 secondes
+Nombre de sommets : 100 | Temps : 0.001493 secondes
+Nombre de sommets : 100 | Temps : 0.001708 secondes
