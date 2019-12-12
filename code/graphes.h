@@ -62,7 +62,7 @@ int lireFichier(char *nomf, GRAPHE *);
  * 0, graphe sauvegardé dans le fichier "output_graph.txt".
  * -1, pointeur g vaut NULL.
  * -2, le premierSommet (structure) vaut NULL.
- * -3, impossible d'ouvrir le fichier ou il faut sauvegarder le graphe.
+ * -3, impossible d'ouvrir le fichier dans lequel il faut sauvegarder le graphe.
  * ------------------------------------------------------------------------- */
 int sauvegarder_graphe(GRAPHE *g);
 
@@ -92,7 +92,7 @@ SOMMET* obtenir_sommet(GRAPHE* g, int labelSommet);
  * NULL si le sommmet n'existe pas ou erreur.
  *
  * ------------------------------------------------------------------------- */
-ELTADJ* obtenir_voisin(GRAPHE* g, int labelSommet);
+ELTADJ* obtenir_voisins(GRAPHE* g, int labelSommet);
 
 /* ------------------------------------------------------------------------- *
  ** Fonction pour obtenir les voisins d'un sommet.
@@ -117,7 +117,7 @@ Tableau* obtenir_voisins_sommet(GRAPHE* g, int labelSommet);
  * Un tableau contenant les sommets du graphe.
  * NULL sinon.
  * ------------------------------------------------------------------------- */
-Tableau* obtenir_sommet_graphe(GRAPHE* g);
+Tableau* obtenir_sommets_graphe(GRAPHE* g);
 
 /* ------------------------------------------------------------------------- *
  ** Fonction pour tester la connexité d'un graphe.
@@ -133,7 +133,7 @@ bool test_connexite(GRAPHE* g);
 
 /* ------------------------------------------------------------------------- *
  ** Fonction pour déterminer si un graphe contient un cycle
- * (cette fonction modifie le graphe de départ).
+ * ATTENTION : cette fonction modifie le graphe de départ.
  *
  ** PARAMETRES
  * g, un pointeur vers le graphe étudié.
@@ -146,7 +146,8 @@ bool contient_cycle(GRAPHE *g);
 
 /* ------------------------------------------------------------------------- *
  ** Fonction pour déterminer si un graphe est non oriente
- * 
+ * ATTENTION : cette fonction modifie le graphe de départ.
+ *
  ** PARAMETRES
  * g, un pointeur vers le graphe étudié.
  *

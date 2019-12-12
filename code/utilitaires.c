@@ -35,6 +35,7 @@ ModeUtilisation gestion_des_arguments(int argc, char **argv, char *source){
 					fprintf(stderr, "** ERREUR : argument -m. Soit \"encodage\" soit \"decodage\".\n");
 					return erreur;
 				}
+				break;
 			case 'f': //Fichier source.
 				printf("Fichier source : %s\n", optarg);
 				strcpy(source, optarg);

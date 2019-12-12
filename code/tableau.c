@@ -9,6 +9,88 @@
 
 #include "tableau.h"
 
+/*** PROTOTYPES DES FONCTIONS STATIC ***/
+
+
+/* ------------------------------------------------------------------------- *
+** Fonction pour modifier la taille d'un Tableau.
+*
+** Paramètres :
+* tab, le Tableau dont il faut modifier la taille.
+* nouvelleTaille, la nouvelle taille souhaitée pour le Tableau.
+*
+** Retour :
+* 0, la taille a bien été modifiée.
+* -1, pointeur tab vaut NULL.
+* -2, pointeur vers les données dans la structure Tableau vaut NULL.
+* -3, tentative de réallocation a une taille plus petite. Refusé car conduit a la perte de certaines données.
+* -4, la réallocation (realloc) a échoué.
+*
+* ------------------------------------------------------------------------- */
+static int modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille);
+
+/* ------------------------------------------------------------------------- *
+** Fonction qui permet de décaler les éléments situés à partir de position
+* d'une position vers la gauche.
+*
+** Paramètres :
+* tab, le Tableau dans lequel on doit effectuer le decalage.
+* position, position à partir de laquelle on doit décaler les éléments.
+*
+** Retour :
+* 0, décalage effectué sans problèmes.
+* -1, pointeur tab vaut NULL.
+* -2, pointeur vers les données dans la structure Tableau vaut NULL.
+*
+* ------------------------------------------------------------------------- */
+static int decalage_gauche_tab(Tableau* tab, size_t position);
+
+/* ------------------------------------------------------------------------- *
+** Fonction qui vérifie si un tableau est trié.
+*
+** Paramètres :
+* tab, le Tableau dont on doit vérifier s'il est trié ou pas.
+*
+** Retour :
+* true, le tableau tab est trié.
+* false, le tableau n'est pas trié ou erreur.
+*
+* ------------------------------------------------------------------------- */
+static bool tableau_est_trie(Tableau* tab);
+
+/* ------------------------------------------------------------------------- *
+** Fonction pour comparer 2 éléments du tableau.
+* Nécessaire pour le quicksort implémenté dans la librairie standard (stdlib.h).
+*
+** Paramètres :
+* firstValue, pointeur vers un élément du tableau.
+* secondValue, pointeur vers l'élément suivant dans le tableau.
+*
+** Retour :
+* Différence entre les 2.
+*
+* ------------------------------------------------------------------------- */
+static int compare_values(const void* firstValue, const void* secondValue);
+
+/* ------------------------------------------------------------------------- *
+** Fonction qui trie un tableau à l'aide du quicksort implémenté dans la
+* librairie standard.
+*
+** Paramètres :
+* tab, le Tableau à trier.
+*
+** Retour :
+* 0, le tableau a été trié ou était déjà trié.
+* -1, pointeur tab vaut NULL.
+* -2, pointeur vers les données dans la structure Tableau vaut NULL.
+*
+* ------------------------------------------------------------------------- */
+static int tri_tableau(Tableau* tab);
+
+
+/*** IMPLEMENTATIONS DES FONCTIONS ***/
+
+
 Tableau* creer_tableau(void){
 
 	Tableau* nouveauTableau = malloc(sizeof(Tableau));
@@ -57,13 +139,13 @@ void afficher_tableau(Tableau* tab){
 	return;
 }//Fin afficher_tableau()
 
-int modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille){
+static int modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille){
 	if(tab == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers tab dans affciher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers tab dans modifier_taille_tableau vaut NULL.\n");
 		return -1;
 	}
 	if(tab->donnees == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers les données dans afficher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers les données dans modifier_taille_tableau vaut NULL.\n");
 		return -2;
 	}
 
@@ -82,17 +164,17 @@ int modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille){
 		return 0;
 	}else{ //Realloc n'a pas fonctionné.
 		fprintf(stderr, "** ERREUR : L'opération de réallocation du tableau a échoué.\n");
-		return -5;
+		return -4;
 	}
 }//Fin modifier_taille_tableau()
 
 int ajouter_element_tab(Tableau* tab, int element){
 	if(tab == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers tab dans affciher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers tab dans ajouter_element_tab vaut NULL.\n");
 		return -1;
 	}
 	if(tab->donnees == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers les données dans afficher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers les données dans ajouter_element_tab vaut NULL.\n");
 		return -2;
 	}
 
@@ -112,27 +194,13 @@ int ajouter_element_tab(Tableau* tab, int element){
 	return 0;
 }//Fin ajouter_element_tab()
 
-/* ------------------------------------------------------------------------- *
-** Fonction qui permet de décaler les éléments situés après position d'une
-* position vers la gauche.
-*
-** Paramètres :
-* tab, le Tableau dans lequel on doit effectuer le decalage.
-* position, position à partir de laquelle on doit décaler les éléments.
-*
-** Retour :
-* 0, décalage effectué sans problèmes.
-* -1, pointeur tab vaut NULL.
-* -2, pointeur vers les données dans la structure Tableau vaut NULL.
-*
-* ------------------------------------------------------------------------- */
 static int decalage_gauche_tab(Tableau* tab, size_t position){
 	if(tab == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers tab dans affciher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers tab dans decalage_gauche_tab vaut NULL.\n");
 		return -1;
 	}
 	if(tab->donnees == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers les données dans afficher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers les données dans decalage_gauche_tab vaut NULL.\n");
 		return -2;
 	}
 
@@ -146,11 +214,11 @@ static int decalage_gauche_tab(Tableau* tab, size_t position){
 
 int supprimer_element_tab(Tableau* tab, int element){
 	if(tab == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers tab dans afficher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers tab dans supprimer_element_tab vaut NULL.\n");
 		return -1;
 	}
 	if(tab->donnees == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers les données dans afficher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers les données dans supprimer_element_tab vaut NULL.\n");
 		return -2;
 	}
 
@@ -211,24 +279,13 @@ int copier_tableau(Tableau* source, Tableau* destination){
 	return 0;
 }//Fin copier_tableau()
 
-/* ------------------------------------------------------------------------- *
-** Fonction qui vérifie si un tableau est trié.
-*
-** Paramètres :
-* tab, le Tableau dont on doit vérifier s'il est trié ou pas.
-*
-** Retour :
-* true, le tableau tab est trié.
-* false, le tableau n'est pas trié ou erreur.
-*
-* ------------------------------------------------------------------------- */
 static bool tableau_est_trie(Tableau* tab){
 	if(tab == NULL){
 		fprintf(stderr, "** ERREUR : pointeur vers tab dans tableau_est_trie vaut NULL.\n");
 		return false;
 	}
 	if(tab->donnees == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers les données dans afficher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers les données dans tableau_est_trie vaut NULL.\n");
 		return false;
 	}
 
@@ -241,42 +298,17 @@ static bool tableau_est_trie(Tableau* tab){
 	return true;
 }//Fin tableau_est_trie()
 
-/* ------------------------------------------------------------------------- *
-** Fonction pour comparer 2 éléments du tableau.
-* Nécessaire pour le quicksort implémenté dans la librairie standard (stdlib.h).
-*
-** Paramètres :
-* firstValue, pointeur vers un élément du tableau.
-* secondValue, pointeur vers l'élément suivant dans le tableau.
-*
-** Retour :
-* Différence entre les 2.
-*
-* ------------------------------------------------------------------------- */
 static int compare_values(const void* firstValue, const void* secondValue){
 	return ( *(int*)firstValue - *(int*)secondValue);
 }//Fin compare_values()
 
-/* ------------------------------------------------------------------------- *
-** Fonction qui trie un tableau à l'aide du quicksort implémenté dans la
-* librairie standard.
-*
-** Paramètres :
-* tab, le Tableau à trier.
-*
-** Retour :
-* 0, toutes les occurrences de element ont bien été suprrimées.
-* -1, pointeur tab vaut NULL.
-* -2, pointeur vers les données dans la structure Tableau vaut NULL.
-*
-* ------------------------------------------------------------------------- */
 static int tri_tableau(Tableau* tab){
 	if(tab == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers tab dans tableau_est_trie vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers tab dans tri_tableau vaut NULL.\n");
 		return -1;
 	}
 	if(tab->donnees == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers les données dans afficher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers les données dans tri_tableau vaut NULL.\n");
 		return -2;
 	}
 
@@ -291,7 +323,7 @@ Tableau* union_tab(Tableau* tab1, Tableau* tab2){
 		return NULL;
 	}
 	if(tab1->donnees == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers les données de tab1 dans afficher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers les données de tab1 dans union_tab vaut NULL.\n");
 		return NULL;
 	}
 	if(tab2 == NULL){
@@ -299,7 +331,7 @@ Tableau* union_tab(Tableau* tab1, Tableau* tab2){
 		return NULL;
 	}
 	if(tab2->donnees == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers les données dans afficher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers les données dans union_tab vaut NULL.\n");
 		return NULL;
 	}
 
@@ -321,6 +353,7 @@ Tableau* union_tab(Tableau* tab1, Tableau* tab2){
 		int resultatCopie = copier_tableau(tab2, tabUnion);
 		if(resultatCopie < 0){
 			fprintf(stderr, "** ERREUR lors de la copie d'un tableau dans union_tab.\n");
+			detruire_tableau(tabUnion);
 			return NULL;
 		}
 		return tabUnion;
@@ -330,6 +363,7 @@ Tableau* union_tab(Tableau* tab1, Tableau* tab2){
 			int resultatCopie = copier_tableau(tab1, tabUnion);
 			if(resultatCopie < 0){
 				fprintf(stderr, "** ERREUR lors de la copie d'un tableau dans union_tab.\n");
+				detruire_tableau(tabUnion);
 				return NULL;
 			}
 			return tabUnion;
@@ -380,7 +414,7 @@ Tableau* union_tab(Tableau* tab1, Tableau* tab2){
 		if(tab1->donnees[posTab1] == tab2->donnees[posTab2]){
 			resultatAJout = ajouter_element_tab(tabUnion, tab1->donnees[posTab1]);
 			if(resultatAJout < 0){
-				fprintf(stderr, "** ERREUR lors de l'ajout d'un élément dans tabUnion.\n");
+				fprintf(stderr, "** ERREUR lors de l'ajout d'un élément dans union_tab.\n");
 				detruire_tableau(tabUnion);
 				return NULL;
 			}
@@ -391,7 +425,7 @@ Tableau* union_tab(Tableau* tab1, Tableau* tab2){
 			if(tab1->donnees[posTab1] < tab2->donnees[posTab2]){
 				resultatAJout = ajouter_element_tab(tabUnion, tab1->donnees[posTab1]);
 				if(resultatAJout < 0){
-					fprintf(stderr, "** ERREUR lors de l'ajout d'un élément dans tabUnion.\n");
+					fprintf(stderr, "** ERREUR lors de l'ajout d'un élément dans union_tab.\n");
 					detruire_tableau(tabUnion);
 					return NULL;
 				}
@@ -401,7 +435,7 @@ Tableau* union_tab(Tableau* tab1, Tableau* tab2){
 				if(tab2->donnees[posTab2] < tab1->donnees[posTab1]){
 					resultatAJout = ajouter_element_tab(tabUnion, tab2->donnees[posTab2]);
 					if(resultatAJout < 0){
-						fprintf(stderr, "** ERREUR lors de l'ajout d'un élément dans tabUnion.\n");
+						fprintf(stderr, "** ERREUR lors de l'ajout d'un élément dans union_tab.\n");
 						detruire_tableau(tabUnion);
 						return NULL;
 					}
@@ -411,26 +445,26 @@ Tableau* union_tab(Tableau* tab1, Tableau* tab2){
 		}//Fin if()
 	}//Fin while()
 
-	//Quand on arrive ici, on est arrivé à la fin d'un tableau ou des deux s'ils ont la même taille.
+	//Quand on arrive ici, on est arrivé à la fin d'un tableau ou des deux.
 	//S'ils n'ont pas la même taille, on ajoute les éléments restants.
-	//On ajoute les éléments restants (s'il en reste) dans le premier tab.
+	//On ajoute les éléments restants (s'il en reste) du premier tab.
 	if(posTab1 <= tab1->nbreElements - 1){
 		for(size_t i = posTab1; i <= tab1->nbreElements - 1; i++){
 			resultatAJout = ajouter_element_tab(tabUnion, tab1->donnees[i]);
 			if(resultatAJout < 0){
-				fprintf(stderr, "** ERREUR lors de l'ajout d'un élément dans tabUnion.\n");
+				fprintf(stderr, "** ERREUR lors de l'ajout d'un élément dans union_tab.\n");
 				detruire_tableau(tabUnion);
 				return NULL;
 			}
 		}//Fin for()
 	}//Fin if()
 
-	//On ajoute les élemnts restants (s'il en reste) dans le deuxième tab.
+	//On ajoute les élemnts restants (s'il en reste) du deuxième tab.
 	if(posTab2 <= tab2->nbreElements - 1){
 		for(size_t i = posTab2; i <= tab2->nbreElements - 1; i++){
 			resultatAJout = ajouter_element_tab(tabUnion, tab2->donnees[i]);
 			if(resultatAJout < 0){
-				fprintf(stderr, "** ERREUR lors de l'ajout d'un élément dans tabUnion.\n");
+				fprintf(stderr, "** ERREUR lors de l'ajout d'un élément dans union_tab.\n");
 				detruire_tableau(tabUnion);
 				return NULL;
 			}
@@ -442,19 +476,19 @@ Tableau* union_tab(Tableau* tab1, Tableau* tab2){
 
 bool egalite_tableaux(Tableau* tab1, Tableau* tab2){
 	if(tab1 == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers tab1 dans union_tab vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers tab1 dans egalite_tableaux vaut NULL.\n");
 		return NULL;
 	}
 	if(tab1->donnees == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers les données de tab1 dans afficher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers les données de tab1 dans egalite_tableaux vaut NULL.\n");
 		return NULL;
 	}
 	if(tab2 == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers tab2 dans union_tab vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers tab2 dans egalite_tableaux vaut NULL.\n");
 		return NULL;
 	}
 	if(tab2->donnees == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers les données dans afficher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers les données de tab2 dans egalite_tableaux vaut NULL.\n");
 		return NULL;
 	}
 
@@ -496,19 +530,19 @@ bool egalite_tableaux(Tableau* tab1, Tableau* tab2){
 
 int difference_tableaux(Tableau* tab1, Tableau* tab2){
 	if(tab1 == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers tab1 dans union_tab vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers tab1 dans difference_tableaux vaut NULL.\n");
 		return -1;
 	}
 	if(tab1->donnees == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers les données de tab1 dans afficher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers les données de tab1 dans difference_tableaux vaut NULL.\n");
 		return -2;
 	}
 	if(tab2 == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers tab2 dans union_tab vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers tab2 dans difference_tableaux vaut NULL.\n");
 		return -3;
 	}
 	if(tab2->donnees == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers les données dans afficher_tableau vaut NULL.\n");
+		fprintf(stderr, "** ERREUR : pointeur vers les données de tab2 dans difference_tableaux vaut NULL.\n");
 		return -4;
 	}
 

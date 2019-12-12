@@ -74,8 +74,11 @@ int lire_taille_codage(char *nomFichier){
 	unsigned int taille;
 
 	int resultatFscanf = fscanf(fichierCodage, "%u", &taille);
-	if(resultatFscanf != 1)
+	if(resultatFscanf != 1){
+		if(fichierCodage)
+			fclose(fichierCodage);
 		return -3;
+	}
 
 	if(fichierCodage != NULL)
 		fclose(fichierCodage);
@@ -106,8 +109,11 @@ int lire_codage_prufer(CodagePrufer *codage, char *nomFichier){
 	unsigned int tailleCodage;
 
 	int resultatLectureTaille = fscanf(fichier, "%u\n", &tailleCodage);
-	if(resultatLectureTaille != 1)
+	if(resultatLectureTaille != 1){
+		if(fichier)
+			fclose(fichier);
 		return -5;
+	}
 
 	int resultatLectureNombre;
 
@@ -160,14 +166,14 @@ CodagePrufer* generer_codage_prufer(GRAPHE* arbre){
 		//On doit trouver la feuille de plus petit indice donc un sommet de degré 1.
 		while(indiceSommetCourant <= arbre->nbS){
 
-			//On récupére les voisins du sommet de label indiceSommetCourant.
+			//On récupère les voisins du sommet de label indiceSommetCourant.
 			//S'il a plus de 1 voisin alors ce n'est pas une feuille.
 
 			voisinsSommet = obtenir_voisins_sommet(arbre, indiceSommetCourant);
 			if(voisinsSommet != NULL){
 				//S'il a bien un unique voisin.
 				if(voisinsSommet->nbreElements == 1){
-					//On vérifie si on n'a pas déjà considérer la feuille.
+					//On vérifie si on n'a pas déjà considéré la feuille.
 					tmpSommet = obtenir_sommet(arbre, indiceSommetCourant);
 					if(tmpSommet != NULL){
 						if(tmpSommet->info != 1){
@@ -184,9 +190,9 @@ CodagePrufer* generer_codage_prufer(GRAPHE* arbre){
 		}//Fin while()
 
 		//On a trouvé un sommet de degré 1 (une feuille).
-		//On récupére son unique voisin.
+		//On récupère son unique voisin.
 
-		ELTADJ* voisinFeuille = obtenir_voisin(arbre, indiceSommetCourant);
+		ELTADJ* voisinFeuille = obtenir_voisins(arbre, indiceSommetCourant);
 		if(voisinFeuille == NULL){
 			fprintf(stderr, "** ERREUR : imossible de récupérer le voisin dans generer_codage_prufer.\n");
 			detruire_codage_prufer(nvCodage);
@@ -217,17 +223,21 @@ int decoder_codage_prufer(GRAPHE *arbre, CodagePrufer *codage){
 		fprintf(stderr, "** ERREUR : pointeur vers le codage vaut NULL.\n");
 		return -1;
 	}
-
-	if(arbre == NULL){
-		fprintf(stderr, "** ERREUR : pointeur vers l'arbre vaut NULL.\n");
+	if(codage->suitePrufer == NULL){
+		fprintf(stderr, "** ERREUR : pointeur vers la suite de Prüfer dans le codage vaut NULL.\n");
 		return -2;
 	}
 
-	int nbSommetsG = codage->taille + 2;
+	if(arbre == NULL){
+		fprintf(stderr, "** ERREUR : pointeur vers l'arbre vaut NULL.\n");
+		return -3;
+	}
+
+	const int nbSommetsG = codage->taille + 2;
 
 	int *degres = malloc(sizeof(int) * nbSommetsG);
 	if(degres == NULL)
-		return -3;
+		return -4;
 
 	for(int i = 0; i < nbSommetsG; ++i){
 		ajouterSommet(arbre, 0);

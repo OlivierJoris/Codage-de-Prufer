@@ -88,7 +88,7 @@ int lire_taille_codage(char *nomFichier);
 int lire_codage_prufer(CodagePrufer *codage, char *nomFichier);
 
 /* ------------------------------------------------------------------------- *
- * Génére le codage de Prüfer pour un arbre donnée.
+ * Génère le codage de Prüfer pour un arbre donnée.
  * ATTENTION : cette fonction modifie le graphe de départ.
  *
  * PARAMETERS
@@ -103,7 +103,7 @@ int lire_codage_prufer(CodagePrufer *codage, char *nomFichier);
 CodagePrufer* generer_codage_prufer(GRAPHE* arbre);
 
 /* ------------------------------------------------------------------------- *
- * Génére le graphe associé au codage de Prüfer donné.
+ * Génère le graphe associé au codage de Prüfer donné.
  *
  * PARAMETERS
  * codage, un pointeur vers le codage de Prüfer à décoder.
@@ -111,8 +111,9 @@ CodagePrufer* generer_codage_prufer(GRAPHE* arbre);
  * RETOUR
  * 0, aucune erreur.
  * -1, pointeur vers le codage vaut NULL.
- * -2, pointeur vers l'arbre vaut NULL.
- * -3, pointeur vers le tableau des degrés vaut NULL.
+ * -2, pointeur vers la suite de Prufer dans le codage vaut NULL.
+ * -3, pointeur vers l'arbre vaut NULL.
+ * -4, pointeur vers le tableau des degrés vaut NULL.
  *
  * ------------------------------------------------------------------------- */
 int decoder_codage_prufer(GRAPHE *arbre, CodagePrufer *codage);

@@ -43,24 +43,6 @@ Tableau* creer_tableau(void);
 void afficher_tableau(Tableau* tab);
 
 /* ------------------------------------------------------------------------- *
-** Fonction pour modifier la taille d'un Tableau.
-*
-** Paramètres :
-* tab, le Tableau dont il faut modifier la taille.
-* nouvelleTaille, la nouvelle taille souhaitée pour le Tableau.
-*
-** Retour :
-* 0, la taille a bien été modifiée.
-* -1, pointeur tab vaut NULL.
-* -2, pointeur vers les données dans la structure Tableau vaut NULL.
-* -3, tentative de réallocation a une taille plus petite. Refusé car conduit a la perte de certaines données.
-* -4, tentative de réallocation a une même taille. Refusé pour économiser le temps processeur.
-* -5, la réallocation (realloc) a échoué.
-*
-* ------------------------------------------------------------------------- */
-int modifier_taille_tableau(Tableau* tab, unsigned int nouvelleTaille);
-
-/* ------------------------------------------------------------------------- *
 ** Fonction pour ajouter un élément au tableau.
 *
 ** Paramètres :
@@ -113,7 +95,7 @@ int copier_tableau(Tableau* source, Tableau* destination);
 /* ------------------------------------------------------------------------- *
 ** Fonction qui construit l'union de 2 tableaux.
 * ATTENTION : Si un tableau contient des élements en double alors erreur.
-*Il faut que chaque élément soit unique.
+*				Il faut que chaque élément soit unique.
 *
 ** Paramètres :
 * tab1, le premier tableau de l'union.
@@ -143,7 +125,7 @@ bool egalite_tableaux(Tableau* tab1, Tableau* tab2);
 ** Fonction qui réalise la différence de 2 tableaux.
 * Les deux tableaux sont considérés commme des ensembles.
 * Donc, on effectue l'opération tab1\tab2.
-* ATTENTION : les éléments de tab1 sont modifiés par cette fonction.
+** ATTENTION : les éléments de tab1 sont modifiés par cette fonction.
 *
 ** Paramètres :
 * tab1, le premier tableau.
@@ -171,4 +153,5 @@ int difference_tableaux(Tableau* tab1, Tableau* tab2);
 *
 * ------------------------------------------------------------------------- */
 void detruire_tableau(Tableau* tab);
+
 #endif

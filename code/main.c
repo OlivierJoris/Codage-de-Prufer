@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
 
 #include "utilitaires.h"
 #include "tableau.h"
@@ -18,11 +19,15 @@ int main(int argc, char **argv){
 	ModeUtilisation mode = gestion_des_arguments(argc, argv, fichier);
 	switch(mode){
 		case encodage:{
+
+			srand(time(NULL)); //Nécessaire pour test_connexite()
+
 			printf("Mode encodage.\n");
 
 			GRAPHE g;
 			int resultatLecture = lireFichier(fichier, &g);
 			if(resultatLecture < 0){
+				fprintf(stderr, "** ERREUR lors de la lecture du graphe.\n");
 				return EXIT_FAILURE;
 			}
 
@@ -79,6 +84,7 @@ int main(int argc, char **argv){
 				return EXIT_FAILURE;
 			}else{
 				supprimerGraphe(&g);
+				//Il faut recharger le graphe car la fonction generer_codage_prufer modifie le graphe de départ.
 				resultatLecture = lireFichier(fichier, &g);
 				if(resultatLecture < 0){
 					fprintf(stderr, "** ERREUR lors de la lecture du graphe.\n");

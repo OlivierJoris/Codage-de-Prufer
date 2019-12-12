@@ -374,8 +374,8 @@ int lireFichier(char *nomf, GRAPHE *g){
 }//Fin lireFichier()
 
 //Sauvegarder le graphe dans un fichier revient à constituer la matrice d'adjacence du graphe dans un fichier.
-//Le graphe sera toujours sauvegradé dans le fichier output_graph.txt. Si ce fichier n'existe pas, il sera créé automatiquement.
-//A condition que l'utilisateur possède le droit d'écriture dans le dossier dans lequel le programme est lancé.
+//Le graphe sera toujours sauvegradé dans le fichier "output_graph.txt". Si ce fichier n'existe pas, il sera créé automatiquement.
+//A condition que l'utilisateur possède le droit d'écriture dans le dossier dans lequel le programme est exécuté.
 int sauvegarder_graphe(GRAPHE *g){
 	if(g == NULL)
 		return -1;
@@ -410,7 +410,9 @@ int sauvegarder_graphe(GRAPHE *g){
 
 	//Parcourir l'entierté des sommets.
 	while(sommetCourant != NULL){
+
 		sommetAdj = sommetCourant->adj;
+
 		//Parcurir les sommets adjacents à un sommet. (liste adjacence pour un sommet.)
 		while(sommetAdj != NULL){
 			//On remplit de 'x' jusqu'à (non compris) un sommet pour lequel il existe un arc entre ce sommet et sommetCourant.
@@ -430,15 +432,19 @@ int sauvegarder_graphe(GRAPHE *g){
 			//On passe au sommet suivant de la liste d'adjacence de sommetCourant.
 			sommetAdj = sommetAdj->suivant;
 		}//Fin while()
-		//S'il n'existe pas d'arc entre le sommetCourant et le dernier sommet (en terme d'indice) du graphe, on remplit de 'x' jusqu'au dernier sommet du graphe.
+
+		/*S'il n'existe pas d'arc entre le sommetCourant et le dernier sommet (en terme d'indice) du graphe,
+		on remplit de 'x' jusqu'au dernier sommet du graphe.*/
 		if(posLigneFichier <= g->nbS){
 			for(int i = posLigneFichier; i < g->nbS; i++)
 				fprintf(fichierGraphe, "x,");
 			//On ne doit pas mettre de virgule en fin de ligne donc on le fait en dehors de la boucle.
 			fprintf(fichierGraphe, "x");
 		}
+
 		//On change de sommet donc on passe à la ligne suivante de la matrice d'adjacence.
 		fprintf(fichierGraphe, "\n");
+
 		posLigneFichier = 1;
 		//On passe au sommet suivant du graphe.
 		sommetCourant = sommetCourant->suivant;
@@ -492,7 +498,7 @@ SOMMET* obtenir_sommet(GRAPHE* g, int labelSommet){
 	return tmpSommet;
 }//Fin obtenir_sommet()
 
-ELTADJ* obtenir_voisin(GRAPHE* g, int labelSommet){
+ELTADJ* obtenir_voisins(GRAPHE* g, int labelSommet){
 	if(g == NULL)
 		return NULL;
 
@@ -500,12 +506,12 @@ ELTADJ* obtenir_voisin(GRAPHE* g, int labelSommet){
 		return NULL;
 
 	if(labelSommet < 1){
-		fprintf(stderr, "** ERREUR : vous essayez de récupérer le voisin d'un sommet dont le label < 1.\n");
+		fprintf(stderr, "** ERREUR : vous essayez de récupérer les voisins d'un sommet dont le label < 1.\n");
 		return NULL;
 	}
 
 	if(labelSommet > g->nbS){
-		fprintf(stderr, "** ERREUR : vous essayer d'obtenir le voisin du sommet %d mais le graphe ne contient que %d sommets.\n", labelSommet, g->nbS);
+		fprintf(stderr, "** ERREUR : vous essayer d'obtenir les voisins du sommet %d mais le graphe ne contient que %d sommets.\n", labelSommet, g->nbS);
 		return NULL;
 	}
 
@@ -530,7 +536,7 @@ ELTADJ* obtenir_voisin(GRAPHE* g, int labelSommet){
 	}
 
 	return tmpSommet->adj;
-}//Fin obtenir_voisin()
+}//Fin obtenir_voisins()
 
 Tableau* obtenir_voisins_sommet(GRAPHE* g, int labelSommet){
 	if(g == NULL)
@@ -584,7 +590,7 @@ Tableau* obtenir_voisins_sommet(GRAPHE* g, int labelSommet){
 	return voisins;
 }//Fin obtenir_voisins_sommet()
 
-Tableau* obtenir_sommet_graphe(GRAPHE* g){
+Tableau* obtenir_sommets_graphe(GRAPHE* g){
 	if(g == NULL){
 		fprintf(stderr, "** ERREUR : pointeur vers le graphe vaut NULL.\n");
 		return NULL;
@@ -620,7 +626,7 @@ Tableau* obtenir_sommet_graphe(GRAPHE* g){
 	}//Fin while()
 
 	return tabSommets;
-}//Fin obtenir_sommet_graphe()
+}//Fin obtenir_sommets_graphe()
 
 //Implémentation de l'algo. slide 130 beamer 1.
 bool test_connexite(GRAPHE* g){
@@ -693,7 +699,6 @@ bool test_connexite(GRAPHE* g){
 				return false;
 			}//Fin if()
 
-			//fprintf(stderr, "Taille de voisins : %u || taille de voisinsSommet = %u.\n", voisins->nbreElements, voisinsSommet->nbreElements);
 			tmpRetourUnion = union_tab(voisins, voisinsSommet);
 
 			if(tmpRetourUnion == NULL){
@@ -772,7 +777,7 @@ bool test_connexite(GRAPHE* g){
 		}
 	}//Fin while()
 
-	Tableau* sommetsGraphe = obtenir_sommet_graphe(g);
+	Tableau* sommetsGraphe = obtenir_sommets_graphe(g);
 	if(sommetsGraphe == NULL){
 		fprintf(stderr, "** ERREUR lors de la récupération des sommets du graphe.\n");
 		detruire_tableau(composante);
