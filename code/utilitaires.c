@@ -30,7 +30,6 @@ ModeUtilisation gestion_des_arguments(int argc, char **argv, char *source){
 						mode = encodage;
 					else
 						mode = decodage;
-					break;
 				}else{ //Mode inconnu.
 					fprintf(stderr, "** ERREUR : argument -m. Soit \"encodage\" soit \"decodage\".\n");
 					return erreur;

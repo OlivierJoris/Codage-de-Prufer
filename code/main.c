@@ -14,6 +14,14 @@
 
 int main(int argc, char **argv){
 
+	if(argc != 5){
+		fprintf(stderr, "** ERREUR : Argument manquant - option inconnue.\n");
+		fprintf(stderr, "Format attendu pour les arguments.\n");
+		fprintf(stderr, "-m suivi de \"encodage\" ou \"decodage\" en fonction du mode souhaité.\n");
+		fprintf(stderr, "-f suivi du chemin vers le fichier ou lire le graphe/codage de Prufer.\n");
+		return EXIT_FAILURE;
+	}
+
 	char fichier[31];
 
 	ModeUtilisation mode = gestion_des_arguments(argc, argv, fichier);
