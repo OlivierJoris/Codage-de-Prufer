@@ -1,0 +1,22 @@
+Nombre de sommets : 5000 | Temps : 0.955760 secondes
+Nombre de sommets : 10000 | Temps : 3.085560 secondes
+Nombre de sommets : 15000 | Temps : 7.025622 secondes
+Nombre de sommets : 20000 | Temps : 12.885085 secondes
+Nombre de sommets : 25000 | Temps : 22.611717 secondes
+Nombre de sommets : 30000 | Temps : 28.249604 secondes
+Nombre de sommets : 35000 | Temps : 38.410363 secondes
+Nombre de sommets : 40000 | Temps : 53.271939 secondes
+Nombre de sommets : 45000 | Temps : 67.503692 secondes
+Nombre de sommets : 50000 | Temps : 76.936239 secondes
+Nombre de sommets : 55000 | Temps : 99.888597 secondes
+Nombre de sommets : 60000 | Temps : 123.048569 secondes
+Nombre de sommets : 65000 | Temps : 151.766514 secondes
+Nombre de sommets : 70000 | Temps : 173.735688 secondes
+Nombre de sommets : 75000 | Temps : 201.513681 secondes
+Nombre de sommets : 80000 | Temps : 225.784369 secondes
+Nombre de sommets : 85000 | Temps : 249.192677 secondes
+Nombre de sommets : 90000 | Temps : 288.100804 secondes
+Nombre de sommets : 95000 | Temps : 297.610491 secondes
+Nombre de sommets : 100000 | Temps : 309.237946 secondes
+
+Nombre de sommets : 1000 | Temps : 0.031906 secondes
