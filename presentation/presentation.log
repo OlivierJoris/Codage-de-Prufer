@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.2.5)  15 DEC 2019 17:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.2.5)  15 DEC 2019 18:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -985,7 +985,7 @@ Package pdftex.def Info: exempleArbre.png  used on input line 162.
  [14
 
  <./exempleArbre.png>]
-<listesAdj.png, id=478, 411.5375pt x 421.575pt>
+<listesAdj.png, id=477, 411.5375pt x 421.575pt>
 File: listesAdj.png Graphic file (type png)
 <use listesAdj.png>
 Package pdftex.def Info: listesAdj.png  used on input line 182.
@@ -1051,7 +1051,7 @@ ve/2018/texmf-dist/fonts/type1/public/cm-super/sfss1200.pfb></usr/local/texlive
 018/texmf-dist/fonts/type1/public/cm-super/sfss1728.pfb></usr/local/texlive/201
 8/texmf-dist/fonts/type1/public/cm-super/sfsx1095.pfb></usr/local/texlive/2018/
 texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on presentation.pdf (20 pages, 309341 bytes).
+Output written on presentation.pdf (20 pages, 309287 bytes).
 PDF statistics:
  715 PDF objects out of 1000 (max. 8388607)
  648 compressed objects within 7 object streams
