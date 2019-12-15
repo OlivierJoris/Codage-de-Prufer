@@ -4,7 +4,7 @@ def decodage_prufer(sequencePrufer):
 
 	i = 0
 	for number in sequencePrufer:
-		#On doit diminuer de 1 chaque sommet de chaque arc car il faut un noeud d'index 0.
+		#On doit diminuer de 1 chaque nombre dans la suite de Prüfer car il faut un noeud de label 0
 		sequencePrufer[i] = sequencePrufer[i] - 1
 		i+=1
 
