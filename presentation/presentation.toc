@@ -4,5 +4,5 @@
 \beamer@subsectionintoc {2}{1}{1\up {re}\relax {} utilit\IeC {\'e}}{5}{0}{2}
 \beamer@subsectionintoc {2}{2}{2\up {e}\relax {} utilit\IeC {\'e}}{10}{0}{2}
 \beamer@sectionintoc {3}{Exemples}{17}{0}{3}
-\beamer@subsectionintoc {3}{1}{Codage}{17}{0}{3}
+\beamer@subsectionintoc {3}{1}{Encodage}{17}{0}{3}
 \beamer@subsectionintoc {3}{2}{D\IeC {\'e}codage}{19}{0}{3}
